@@ -1,5 +1,5 @@
-//#ifndef _PIPE_H_
-//#define _PIPE_H_
+#ifndef _PIPE_H_
+#define _PIPE_H_
 
 #include <iostream>
 
@@ -35,4 +35,4 @@ private:
 	char pipe[3][3];
 };
 
-//#endif // _PIPE_H_
+#endif // _PIPE_H_
