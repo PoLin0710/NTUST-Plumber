@@ -110,3 +110,62 @@ void Pipe::TurnLeft()
 		}
 	}
 }
+
+Pipe Pipe::setPipe(char up, char right, char down, char left)
+{
+	int roadSum = 0;
+	if (up != ' ')roadSum++;
+	if (right != ' ')roadSum++;
+	if (down != ' ')roadSum++;
+	if (left != ' ')roadSum++;
+
+	if (roadSum == 4)
+	{
+		Pipe result(PipeType::CROSSPIPE);
+		for (int i = 0; i < rand() % 4; i++)
+		{
+			result.TurnRight();
+		}
+		return result;
+	}
+	else if (roadSum == 3)
+	{
+		Pipe result(PipeType::TPIPE);
+		for (int i = 0; i < rand() % 4; i++)
+		{
+			result.TurnRight();
+		}
+		return result;
+	}
+	else if (roadSum == 2)
+	{
+		if ((up != ' ' && down != ' ') || (left != ' ') && (right != ' '))
+		{
+			Pipe result(PipeType::STRAIGHTPIPE);
+			for (int i = 0; i < rand() % 4; i++)
+			{
+				result.TurnRight();
+			}
+			return result;
+		}
+		else
+		{
+			Pipe result(PipeType::LPIPE);
+			for (int i = 0; i < rand() % 4; i++)
+			{
+				result.TurnRight();
+			}
+			return result;
+		}
+	}
+	else
+	{
+		Pipe result(rand() % 4);
+		for (int i = 0; i < rand() % 4; i++)
+		{
+			result.TurnRight();
+		}
+		return result;
+	}
+
+}

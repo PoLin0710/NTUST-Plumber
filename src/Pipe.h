@@ -28,6 +28,7 @@ public:
 	void print();
 	void TurnRight();
 	void TurnLeft();
+	Pipe setPipe(char up, char right, char down, char left);
 
 private:
 	int type;

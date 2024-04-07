@@ -4,6 +4,8 @@
 #include <vector>
 #include <ctime>
 #include <iostream>
+#include <algorithm>
+#include "Pipe.h"
 
 class Board
 {
@@ -11,6 +13,8 @@ public:
 	Board();
 	~Board();
 	void print();
+	void generateMap();
+	void setPipeMap();
 
 private:
 	int M, N;
@@ -18,5 +22,7 @@ private:
 	int startX, startY;
 	int endX, endY;
 	std::vector<std::vector<char>> board;
+	std::vector<std::vector<Pipe>> PipeBoard;
+	void generateMapDFS(int, int);
 };
 #endif // _BOARD_H_
