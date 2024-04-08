@@ -86,8 +86,6 @@ void Board::turnPipe(char dir)
 
 void Board::waterPassBFS()
 {
-	pipeToBoard();
-
 	std::vector<std::vector<bool>> temp(height, std::vector<bool>(width, false));
 	waterPass = temp;
 
