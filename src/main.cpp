@@ -1,8 +1,7 @@
-#include "Pipe.h"
-#include "Board.h"
+#include "Game.h"
 
 int main()
 {
-	Board board;
-	board.print();
+	Game game;
+	game.start();
 }

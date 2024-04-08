@@ -140,14 +140,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Board.cpp" />
+    <ClCompile Include="..\..\src\Game.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Pipe.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Board.h" />
+    <ClInclude Include="..\..\src\Game.h" />
     <ClInclude Include="..\..\src\Pipe.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\README.md" />
     <None Include="..\..\src\README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

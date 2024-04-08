@@ -18,6 +18,8 @@ public:
 	void print();
 	void playerMove(int, int);
 	void turnPipe(char);
+	void waterPassBFS();
+	bool checkwin();
 
 private:
 	int M, N;
@@ -28,10 +30,15 @@ private:
 	std::vector<std::vector<char>> board;
 	std::vector<std::vector<Pipe>> PipeBoard;
 	std::vector<std::vector<bool>> answer;
+	std::vector<std::vector<bool>> waterPass;
+	void setBoard();
 	void initializeMap();
 	void generateMapDFS(int, int);
 	void setPipeMap();
 	bool isValid(int, int, std::vector<std::vector<bool>>&);
 	void findTheOneRoad(int, int, int, int);
+	void pipeToBoard();
+	void update();
+
 };
 #endif // _BOARD_H_
