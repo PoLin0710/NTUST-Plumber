@@ -51,7 +51,31 @@ void Game::start()
 		} while (!isWin);
 
 		std::cout << "Stage Clear!\n";
-		system("pause");
+
+		char input = '1';
+		do
+		{
+			if (input != '1' && input != '2')
+			{
+				std::cout << "Invailed Input\n";
+			}
+			std::cout << "Want to play again?\n";
+			std::cout << "1. Yes\n";
+			std::cout << "2. No\n";
+			input = _getch();
+			system("cls");
+		} while (input != '1' && input != '2');
+
+		if (input == '1')
+		{
+			continue;
+		}
+		else
+		{
+			system("cls");
+			std::cout << "Bye bye~";
+			break;
+		}
 	}
 }
 
