@@ -1,5 +1,12 @@
 #include "Board.h"
 
+void SetColor(int color = 7)
+{
+	HANDLE hConsole;
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, color);
+}
+
 Board::Board()
 {
 	srand(time(0));
@@ -26,6 +33,9 @@ Board::Board()
 	this->endX = position[StartToEnd[random][1]][1];
 	this->endY = position[StartToEnd[random][1]][0];
 
+	this->playerX = 0;
+	this->playerY = 0;
+
 	for (int i = 0; i < height; i++)
 	{
 		std::vector<char> temp;
@@ -46,6 +56,61 @@ Board::Board()
 
 	board[startY][startX] = 'S';
 	board[endY][endX] = 'E';
+
+	initializeMap();
+}
+
+Board::Board(int M, int N)
+{
+	srand(time(0));
+
+	this->M = M;
+	this->N = N;
+
+	//Add new walls and dividers
+	this->height = M * 3 + M + 1;
+	this->width = N * 3 + N + 1;
+
+	int position[8][2] = { {0,2},{0,this->width - 3},
+							  {2,width - 1}, {height - 3,width - 1},
+							  {height - 1,width - 3},{height - 1,2},
+							  {height - 3,0},{2,0} };
+	int StartToEnd[8][2] = { {0,4},{1,5},{2,6},{3,7},
+							 {4,0},{5,1},{6,2},{7,3} };
+
+	int random = rand() % 8;
+
+	this->startX = position[StartToEnd[random][0]][1];
+	this->startY = position[StartToEnd[random][0]][0];
+
+	this->endX = position[StartToEnd[random][1]][1];
+	this->endY = position[StartToEnd[random][1]][0];
+
+	this->playerX = 0;
+	this->playerY = 0;
+
+	for (int i = 0; i < height; i++)
+	{
+		std::vector<char> temp;
+		for (int j = 0; j < width; j++)
+		{
+			if (i % 4 == 0 || j % 4 == 0)
+			{
+				temp.push_back(' ');
+			}
+			else
+			{
+				temp.push_back('#');
+			}
+
+		}
+		board.push_back(temp);
+	}
+
+	board[startY][startX] = 'S';
+	board[endY][endX] = 'E';
+
+	initializeMap();
 }
 
 Board::~Board()
@@ -54,6 +119,8 @@ Board::~Board()
 
 void Board::print()
 {
+	system("cls");
+
 	for (int i = 1; i < height; i += 4)
 	{
 		for (int j = 1; j < width; j += 4)
@@ -72,6 +139,21 @@ void Board::print()
 	{
 		for (int j = 0; j < width; j++)
 		{
+
+			//Change color
+			if ((board[i][j] == '#' || board[i][j] == 'P') && i / 4 == playerY && j / 4 == playerX)
+			{
+				SetColor(206);
+			}
+			else if ((board[i][j] == '#' || board[i][j] == 'P') && answer[i / 4][j / 4])
+			{
+				SetColor(12);
+			}
+			else
+			{
+				SetColor();
+			}
+
 			if (board[i][j] == 'X')
 			{
 				std::cout << ' ';
@@ -86,42 +168,24 @@ void Board::print()
 
 }
 
-void Board::generateMap()
+void Board::turnPipe(char dir)
 {
-	int firstPipeX = startX;
-	int firstPipeY = startY;
-	int endPipeX = endX;
-	int endPipeY = endY;
-
-	if (startX == 0) firstPipeX = 2;
-	else if (startX == width - 1) firstPipeX = width - 3;
-
-	if (startY == 0) firstPipeY = 2;
-	else if (startY == height - 1) firstPipeY = height - 3;
-
-	if (endX == 0) endPipeX = 2;
-	else if (endX == width - 1) endPipeX = width - 3;
-
-	if (endY == 0) endPipeY = 2;
-	else if (endY == height - 1) endPipeY = height - 3;
-
-	generateMapDFS(firstPipeX, firstPipeY);
-	setPipeMap();
-	findTheOneRoad(firstPipeX, firstPipeY, endPipeX, endPipeY);
+	if (dir == 'j' || dir == 'J')
+	{
+		PipeBoard[playerY][playerX].TurnLeft();
+	}
+	else if (dir == 'k' || dir == 'K')
+	{
+		PipeBoard[playerY][playerX].TurnRight();
+	}
 }
 
-void Board::setPipeMap()
+void Board::playerMove(int deltaX, int deltaY)
 {
-	for (int i = 2; i < height; i += 4)
+	if (playerX + deltaX >= 0 && playerX + deltaX < N && playerY + deltaY >= 0 && playerY + deltaY < M)
 	{
-		std::vector<Pipe>temp;
-		for (int j = 2; j < width; j += 4)
-		{
-			char up = board[i - 2][j], right = board[i][j + 2], down = board[i + 2][j], left = board[i][j - 2];
-			Pipe set = set.setPipe(up, right, down, left);
-			temp.push_back(set);
-		}
-		PipeBoard.push_back(temp);
+		playerX += deltaX;
+		playerY += deltaY;
 	}
 }
 
@@ -174,6 +238,21 @@ void Board::findTheOneRoad(int StartX, int StartY, int EndX, int EndY)
 	int x;
 }
 
+void Board::setPipeMap()
+{
+	for (int i = 2; i < height; i += 4)
+	{
+		std::vector<Pipe>temp;
+		for (int j = 2; j < width; j += 4)
+		{
+			char up = board[i - 2][j], right = board[i][j + 2], down = board[i + 2][j], left = board[i][j - 2];
+			Pipe set = set.setPipe(up, right, down, left);
+			temp.push_back(set);
+		}
+		PipeBoard.push_back(temp);
+	}
+}
+
 int direction[5] = { -1,0,1,0,-1 };
 
 void Board::generateMapDFS(int x, int y)
@@ -204,4 +283,31 @@ bool Board::isValid(int x, int y, std::vector<std::vector<bool>>& visited)
 		return true;
 	}
 	return false;
+}
+
+void Board::initializeMap()
+{
+	int firstPipeX = startX;
+	int firstPipeY = startY;
+	int endPipeX = endX;
+	int endPipeY = endY;
+
+	if (startX == 0) firstPipeX = 2;
+	else if (startX == width - 1) firstPipeX = width - 3;
+
+	if (startY == 0) firstPipeY = 2;
+	else if (startY == height - 1) firstPipeY = height - 3;
+
+	if (endX == 0) endPipeX = 2;
+	else if (endX == width - 1) endPipeX = width - 3;
+
+	if (endY == 0) endPipeY = 2;
+	else if (endY == height - 1) endPipeY = height - 3;
+
+	this->playerX = firstPipeX / 4;
+	this->playerY = firstPipeY / 4;
+
+	generateMapDFS(firstPipeX, firstPipeY);
+	setPipeMap();
+	findTheOneRoad(firstPipeX, firstPipeY, endPipeX, endPipeY);
 }

@@ -6,27 +6,32 @@
 #include <queue>
 #include <iostream>
 #include <algorithm>
+#include <windows.h> //º“¿¿GUI
 #include "Pipe.h"
 
 class Board
 {
 public:
 	Board();
+	Board(int M, int N);
 	~Board();
 	void print();
-	void generateMap();
-	void setPipeMap();
-	void findTheOneRoad(int, int, int, int);
+	void playerMove(int, int);
+	void turnPipe(char);
 
 private:
 	int M, N;
 	int width, height;
 	int startX, startY;
 	int endX, endY;
+	int playerX, playerY;
 	std::vector<std::vector<char>> board;
 	std::vector<std::vector<Pipe>> PipeBoard;
 	std::vector<std::vector<bool>> answer;
+	void initializeMap();
 	void generateMapDFS(int, int);
+	void setPipeMap();
 	bool isValid(int, int, std::vector<std::vector<bool>>&);
+	void findTheOneRoad(int, int, int, int);
 };
 #endif // _BOARD_H_

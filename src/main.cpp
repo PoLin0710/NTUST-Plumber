@@ -4,7 +4,5 @@
 int main()
 {
 	Board board;
-	board.generateMap();
 	board.print();
-	board.setPipeMap();
 }
