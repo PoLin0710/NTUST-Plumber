@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <ctime>
+#include <queue>
 #include <iostream>
 #include <algorithm>
 #include "Pipe.h"
@@ -15,6 +16,7 @@ public:
 	void print();
 	void generateMap();
 	void setPipeMap();
+	void findTheOneRoad(int, int, int, int);
 
 private:
 	int M, N;
@@ -23,6 +25,8 @@ private:
 	int endX, endY;
 	std::vector<std::vector<char>> board;
 	std::vector<std::vector<Pipe>> PipeBoard;
+	std::vector<std::vector<bool>> answer;
 	void generateMapDFS(int, int);
+	bool isValid(int, int, std::vector<std::vector<bool>>&);
 };
 #endif // _BOARD_H_

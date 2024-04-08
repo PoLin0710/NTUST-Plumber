@@ -30,10 +30,10 @@ public:
 	void TurnLeft();
 	Pipe setPipe(char up, char right, char down, char left);
 
+	char pipe[3][3];
 private:
 	int type;
 	int dir;
-	char pipe[3][3];
 };
 
 #endif // _PIPE_H_

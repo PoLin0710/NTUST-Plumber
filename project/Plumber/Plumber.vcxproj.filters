@@ -27,10 +27,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Pipe.h">
-      <Filter>來源檔案</Filter>
+      <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Board.h">
-      <Filter>來源檔案</Filter>
+      <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

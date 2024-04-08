@@ -4,7 +4,7 @@ Board::Board()
 {
 	srand(time(0));
 
-	this->M = 3 + rand() % 1;
+	this->M = 3 + rand() % 4;
 	this->N = M + 1;
 
 	//Add new walls and dividers
@@ -54,48 +54,60 @@ Board::~Board()
 
 void Board::print()
 {
+	for (int i = 1; i < height; i += 4)
+	{
+		for (int j = 1; j < width; j += 4)
+		{
+			for (int k = i; k < i + 3; k++)
+			{
+				for (int m = j; m < j + 3; m++)
+				{
+					board[k][m] = PipeBoard[(i - 1) / 4][(j - 1) / 4].pipe[k - i][m - j];
+				}
+			}
+		}
+	}
+
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
 		{
-			std::cout << board[i][j];
+			if (board[i][j] == 'X')
+			{
+				std::cout << ' ';
+			}
+			else
+			{
+				std::cout << board[i][j];
+			}
 		}
 		std::cout << std::endl;
 	}
+
 }
 
 void Board::generateMap()
 {
-	int firstPipeX = 0;
-	int firstPipeY = 0;
+	int firstPipeX = startX;
+	int firstPipeY = startY;
+	int endPipeX = endX;
+	int endPipeY = endY;
 
-	if (startX == 0)
-	{
-		firstPipeX = 2;
-	}
-	else if (startX == width - 1)
-	{
-		firstPipeX = width - 3;
-	}
-	else
-	{
-		firstPipeX = startX;
-	}
+	if (startX == 0) firstPipeX = 2;
+	else if (startX == width - 1) firstPipeX = width - 3;
 
-	if (startY == 0)
-	{
-		firstPipeY = 2;
-	}
-	else if (startY == height - 1)
-	{
-		firstPipeY = height - 3;
-	}
-	else
-	{
-		firstPipeY = startY;
-	}
+	if (startY == 0) firstPipeY = 2;
+	else if (startY == height - 1) firstPipeY = height - 3;
+
+	if (endX == 0) endPipeX = 2;
+	else if (endX == width - 1) endPipeX = width - 3;
+
+	if (endY == 0) endPipeY = 2;
+	else if (endY == height - 1) endPipeY = height - 3;
 
 	generateMapDFS(firstPipeX, firstPipeY);
+	setPipeMap();
+	findTheOneRoad(firstPipeX, firstPipeY, endPipeX, endPipeY);
 }
 
 void Board::setPipeMap()
@@ -111,6 +123,55 @@ void Board::setPipeMap()
 		}
 		PipeBoard.push_back(temp);
 	}
+}
+
+void Board::findTheOneRoad(int StartX, int StartY, int EndX, int EndY)
+{
+	std::vector<std::vector<bool>> visited(height, std::vector<bool>(width, false));
+
+	struct Node {
+		int x, y;
+		std::vector<std::pair<int, int>> path;
+	};
+
+	std::queue<Node> q;
+	q.push({ StartX, StartY, {{StartX, StartY}} });
+	visited[StartY][StartX] = true;
+
+	int dx[] = { -2, 2, 0, 0 };
+	int dy[] = { 0, 0, -2, 2 };
+
+	while (!q.empty())
+	{
+		Node current = q.front();
+		q.pop();
+
+		// End found
+		if (current.x == EndX && current.y == EndY)
+		{
+			answer.resize(M, std::vector<bool>(N, false));
+			for (auto& p : current.path) {
+				if ((p.first - 2) % 4 == 0 && (p.second - 2) % 4 == 0)
+					answer[(p.second - 2) / 4][(p.first - 2) / 4] = true;
+			}
+			return;
+		}
+
+		for (int i = 0; i < 4; ++i)
+		{
+			int newX = current.x + dx[i];
+			int newY = current.y + dy[i];
+
+			if (isValid(newX, newY, visited))
+			{
+				visited[newY][newX] = true;
+				auto newPath = current.path;
+				newPath.push_back({ newX, newY });
+				q.push({ newX, newY, newPath });
+			}
+		}
+	}
+	int x;
 }
 
 int direction[5] = { -1,0,1,0,-1 };
@@ -135,4 +196,12 @@ void Board::generateMapDFS(int x, int y)
 		}
 
 	}
+}
+
+bool Board::isValid(int x, int y, std::vector<std::vector<bool>>& visited)
+{
+	if (x >= 0 && x < width && y >= 0 && y < height && (board[y][x] == 'X' || board[y][x] == 'P') && !visited[y][x]) {
+		return true;
+	}
+	return false;
 }
