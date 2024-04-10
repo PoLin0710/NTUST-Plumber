@@ -1,0 +1,16 @@
+4 5
+#P# #P# ### #P# #P#
+PP# PPP PPP PPP PP#
+### #P# ### #P# ###
+
+#P# #P# #P# #P# #P#
+PPP PPP PP# PPP PPP
+#P# #P# ### ### ###
+
+### ### ### ### ###
+PPP PPP PPP PPP PPP
+### ### ### ### ###
+
+### ### ### #P# ###
+PPP PPP PPP PP# PPP
+### ### ### ### ###

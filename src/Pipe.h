@@ -28,7 +28,8 @@ public:
 	void print();
 	void TurnRight();
 	void TurnLeft();
-	Pipe setPipe(char up, char right, char down, char left);
+	Pipe SetPipe(char up, char right, char down, char left);
+	Pipe FindKindPipe(char[3][3]);
 
 	char pipe[3][3];
 private:

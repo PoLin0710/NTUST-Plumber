@@ -14,6 +14,7 @@ Pipe::Pipe()
 
 }
 
+
 Pipe::~Pipe()
 {
 }
@@ -111,7 +112,7 @@ void Pipe::TurnLeft()
 	}
 }
 
-Pipe Pipe::setPipe(char up, char right, char down, char left)
+Pipe Pipe::SetPipe(char up, char right, char down, char left)
 {
 	int roadSum = 0;
 	if (up != ' ')roadSum++;
@@ -169,3 +170,112 @@ Pipe Pipe::setPipe(char up, char right, char down, char left)
 	}
 
 }
+
+Pipe Pipe::FindKindPipe(char src[3][3])
+{
+	Pipe StraightPipe(PipeType::STRAIGHTPIPE);
+	Pipe TPipe(PipeType::TPIPE);
+	Pipe LPipe(PipeType::LPIPE);
+	Pipe CrossPipe(PipeType::CROSSPIPE);
+
+	for (int i = 0; i < 4; i++)
+	{
+		bool same = true;
+
+		for (int j = 0; j < 3 && same; j++)
+		{
+			for (int k = 0; k < 3 && same; k++)
+			{
+				if (StraightPipe.pipe[j][k] != src[j][k])
+				{
+					same = false;
+				}
+			}
+		}
+
+		if (same)
+		{
+			return StraightPipe;
+		}
+		else
+		{
+			StraightPipe.TurnRight();
+		}
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		bool same = true;
+
+		for (int j = 0; j < 3 && same; j++)
+		{
+			for (int k = 0; k < 3 && same; k++)
+			{
+				if (TPipe.pipe[j][k] != src[j][k])
+				{
+					same = false;
+				}
+			}
+		}
+
+		if (same)
+		{
+			return TPipe;
+		}
+		else
+		{
+			TPipe.TurnRight();
+		}
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		bool same = true;
+
+		for (int j = 0; j < 3 && same; j++)
+		{
+			for (int k = 0; k < 3 && same; k++)
+			{
+				if (LPipe.pipe[j][k] != src[j][k])
+				{
+					same = false;
+				}
+			}
+		}
+
+		if (same)
+		{
+			return LPipe;
+		}
+		else
+		{
+			LPipe.TurnRight();
+		}
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		bool same = true;
+
+		for (int j = 0; j < 3 && same; j++)
+		{
+			for (int k = 0; k < 3 && same; k++)
+			{
+				if (CrossPipe.pipe[j][k] != src[j][k])
+				{
+					same = false;
+				}
+			}
+		}
+
+		if (same)
+		{
+			return CrossPipe;
+		}
+		else
+		{
+			CrossPipe.TurnRight();
+		}
+	}
+}
+

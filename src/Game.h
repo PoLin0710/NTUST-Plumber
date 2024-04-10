@@ -2,6 +2,8 @@
 #define _GAME_H_
 
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <conio.h>
 #include <ctime>
 #include "Board.h"
@@ -30,6 +32,7 @@ public:
 	~Game();
 	void start();
 	void setMode();
+	void ReadMode();
 	void CustomMode();
 	void RandomMode();
 

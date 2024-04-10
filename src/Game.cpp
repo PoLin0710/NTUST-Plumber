@@ -19,7 +19,11 @@ void Game::start()
 		system("cls");
 		setMode();
 
-		if (mode == GameMode::CUSTOM)
+		if (mode == GameMode::READFILE)
+		{
+			ReadMode();
+		}
+		else if (mode == GameMode::CUSTOM)
 		{
 			CustomMode();
 		}
@@ -68,6 +72,11 @@ void Game::start()
 
 		if (input == '1')
 		{
+			for (int i = 0; i < ValidInput::INVALID; i++)
+			{
+				keyState[i] = false;
+			}
+
 			continue;
 		}
 		else
@@ -115,6 +124,24 @@ void Game::setMode()
 
 	}
 
+}
+
+void Game::ReadMode()
+{
+	std::ifstream inFile("../../src/map/map1.txt");
+
+	int m = 0, n = 0;
+	std::string temp = "", input;
+
+	inFile >> m >> n;
+
+	while (getline(inFile, input))
+	{
+		temp += input;
+	}
+
+	Board ans(m, n, temp);
+	board = ans;
 }
 
 void Game::CustomMode()

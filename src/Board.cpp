@@ -25,6 +25,68 @@ Board::Board(int M, int N)
 	setBoard();
 }
 
+Board::Board(int M, int N, std::string input)
+{
+	board.resize(M * 3 + M + 1, std::vector<char>(N * 3 + N + 1, ' '));
+	answer.resize(M, std::vector<bool>(N));
+
+	this->M = M;
+	this->N = N;
+
+	this->height = M * 3 + M + 1;
+	this->width = N * 3 + N + 1;
+
+	this->startX = 0;
+	this->startY = 2;
+
+	this->endX = width - 1;
+	this->endY = height - 3;
+
+
+	int pr = 0;
+
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			if (i == 0 || i % 4 == 0 || j == 0 || j == width - 1)
+			{
+				continue;
+			}
+			else
+			{
+				board[i][j] = input[pr++];
+			}
+		}
+	}
+
+	board[startY][startX] = 'S';
+	board[endY][endX] = 'E';
+
+	for (int i = 1; i < height; i += 4)
+	{
+		std::vector<Pipe>temp;
+		for (int j = 1; j < width; j += 4)
+		{
+			char store[3][3];
+
+			for (int k = i; k < i + 3; k++)
+			{
+				for (int m = j; m < j + 3; m++)
+				{
+					store[k - i][m - j] = board[k][m];
+				}
+			}
+
+			Pipe set = set.FindKindPipe(store);
+			temp.push_back(set);
+		}
+		PipeBoard.push_back(temp);
+	}
+
+	waterPassBFS();
+}
+
 Board::~Board()
 {
 }
@@ -223,7 +285,7 @@ void Board::setPipeMap()
 		for (int j = 2; j < width; j += 4)
 		{
 			char up = board[i - 2][j], right = board[i][j + 2], down = board[i + 2][j], left = board[i][j - 2];
-			Pipe set = set.setPipe(up, right, down, left);
+			Pipe set = set.SetPipe(up, right, down, left);
 			temp.push_back(set);
 		}
 		PipeBoard.push_back(temp);

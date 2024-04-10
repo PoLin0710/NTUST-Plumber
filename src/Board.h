@@ -14,6 +14,7 @@ class Board
 public:
 	Board();
 	Board(int M, int N);
+	Board(int M, int N, std::string);
 	~Board();
 	void print();
 	void playerMove(int, int);

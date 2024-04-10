@@ -47,4 +47,9 @@
       <Filter>資源檔</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\src\map\map1.txt">
+      <Filter>資源檔</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
