@@ -74,6 +74,12 @@ Board::Board(int M, int N, std::string input)
 			{
 				for (int m = j; m < j + 3; m++)
 				{
+					if (board[k][m] == 'A')
+					{
+						answer[k / 4][m / 4] = true;
+						board[k][m] = 'P';
+					}
+
 					store[k - i][m - j] = board[k][m];
 				}
 			}
