@@ -103,6 +103,9 @@ void handle_turn(http_request request) {
 		response_data[U("M")] = json::value::number(game.getBoardSize()[0]);
 		response_data[U("N")] = json::value::number(game.getBoardSize()[1]);
 		response_data[U("PIPES")] = json::value::array(game.getStatu().size());
+		response_data[U("begin")] = json::value::number(game.getStartEnd()[0]);
+		response_data[U("end")] = json::value::number(game.getStartEnd()[1]);
+		response_data[U("win_statu")] = json::value::boolean(game.getWinStatu());
 
 		for (int i = 0; i < game.getStatu().size(); i++)
 		{
