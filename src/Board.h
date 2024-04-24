@@ -22,11 +22,22 @@ public:
 	void waterPassBFS();
 	bool checkwin();
 
+	int getPlayerX();
+	int getPlayerY();
+	int getRow();
+	int getCol();
+	int getBegin();
+	int getEnd();
+	std::vector<std::vector<Pipe>> getPipeBoard();
+	std::vector<std::vector<bool>> getAnswer();
+	std::vector<std::vector<bool>> getWaterPass();
+
 private:
 	int M, N;
 	int width, height;
 	int startX, startY;
 	int endX, endY;
+	int begin, end;
 	int playerX, playerY;
 	std::vector<std::vector<char>> board;
 	std::vector<std::vector<Pipe>> PipeBoard;

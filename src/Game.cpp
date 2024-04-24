@@ -6,124 +6,47 @@ Game::Game()
 	{
 		keyState[i] = false;
 	}
+
+	mode = GameMode::NOTHING;
+
 }
 
 Game::~Game()
 {
 }
 
-void Game::start()
+void Game::start(int M, int N)
 {
-	while (1)
+
+	if (mode == GameMode::READFILE)
 	{
-		system("cls");
-		setMode();
-
-		if (mode == GameMode::READFILE)
-		{
-			ReadMode();
-		}
-		else if (mode == GameMode::CUSTOM)
-		{
-			CustomMode();
-		}
-		else if (mode == GameMode::RANDOM)
-		{
-			RandomMode();
-		}
-
-		clock_t startT, endT;
-		startT = 0;
-		endT = 100;
-
-		isWin = false;
-
-		do
-		{
-			double timeFrame = (double)(endT - startT) / CLOCKS_PER_SEC;
-
-			if (timeFrame >= gTimeLog) {
-				update();
-				startT = clock();
-			}
-
-			if (isWin == false)
-			{
-				keyUpdate();
-				endT = clock();
-			}
-		} while (!isWin);
-
-		std::cout << "Stage Clear!\n";
-
-		char input = '1';
-		do
-		{
-			if (input != '1' && input != '2')
-			{
-				std::cout << "Invailed Input\n";
-			}
-			std::cout << "Want to play again?\n";
-			std::cout << "1. Yes\n";
-			std::cout << "2. No\n";
-			input = _getch();
-			system("cls");
-		} while (input != '1' && input != '2');
-
-		if (input == '1')
-		{
-			for (int i = 0; i < ValidInput::INVALID; i++)
-			{
-				keyState[i] = false;
-			}
-
-			continue;
-		}
-		else
-		{
-			system("cls");
-			std::cout << "Bye bye~";
-			break;
-		}
+		ReadMode();
 	}
+	else if (mode == GameMode::CUSTOM)
+	{
+		CustomMode(M, N);
+	}
+	else if (mode == GameMode::RANDOM)
+	{
+		RandomMode();
+	}
+
 }
 
-void Game::setMode()
+void Game::setMode(char input)
 {
-	while (1)
+	switch (input)
 	{
-		std::cout << "Choose Mode\n";
-		std::cout << "1. Read File\n";
-		std::cout << "2. Custom\n";
-		std::cout << "3. Random\n";
-
-		char input = _getch();
-		if (input >= '1' && input <= '3')
-		{
-			switch (input)
-			{
-			case'1':
-				mode = GameMode::READFILE;
-				break;
-			case'2':
-				mode = GameMode::CUSTOM;
-				break;
-			case'3':
-				mode = GameMode::RANDOM;
-				break;
-			}
-
-			system("cls");
-			break;
-		}
-		else
-		{
-			system("cls");
-			std::cout << "Error input!!\n";
-		}
-
+	case'1':
+		mode = GameMode::READFILE;
+		break;
+	case'2':
+		mode = GameMode::CUSTOM;
+		break;
+	case'3':
+		mode = GameMode::RANDOM;
+		break;
 	}
-
 }
 
 void Game::ReadMode()
@@ -144,54 +67,10 @@ void Game::ReadMode()
 	board = ans;
 }
 
-void Game::CustomMode()
+void Game::CustomMode(int Row, int Col)
 {
-	int Row, Col;
-	while (1)
-	{
-
-		std::cout << "Input Row(3<=ROW<=15) : ";
-		std::cin >> Row;
-
-		if (std::cin.fail())
-		{
-			std::cin.clear();
-			std::cin.ignore();
-			system("cls");
-			std::cout << "Invailed Input" << std::endl;
-			continue;
-		}
-
-
-		std::cout << "Input Col(3<=COL<=15) : ";
-		std::cin >> Col;
-
-		if (std::cin.fail())
-		{
-			std::cin.clear();
-			std::cin.ignore();
-			system("cls");
-			std::cout << "Invailed Input" << std::endl;
-			continue;
-		}
-
-		if (Row >= 3 && Row <= 15 && Col >= 3 && Col <= 15)
-		{
-			Board ans(Row, Col);
-			board = ans;
-
-			break;
-		}
-		else
-		{
-			std::cin.ignore();
-			std::cin.clear();
-
-			system("cls");
-			std::cout << "Error input!!\n";
-		}
-
-	}
+	Board ans(Row, Col);
+	board = ans;
 }
 
 void Game::RandomMode()
@@ -200,12 +79,11 @@ void Game::RandomMode()
 	board = map;
 }
 
-void Game::keyUpdate()
+void Game::keyUpdate(char input)
 {
 	for (int i = 0; i < ValidInput::INVALID; i++) {
 		keyState[i] = false;
 	}
-	char input = _getch();
 	switch (input) {
 	case 'w':
 	case 'W':
@@ -238,7 +116,6 @@ void Game::keyUpdate()
 
 void Game::update()
 {
-	system("cls");
 	// ¬O§_¦³input
 	bool hasInput = false;
 	if (keyState[ValidInput::EW])
@@ -272,7 +149,52 @@ void Game::update()
 		hasInput = true;
 	}
 
-	board.print();
+	//board.print();
 	isWin = board.checkwin();
 
+}
+
+std::vector<int> Game::getBoardSize()
+{
+	return { board.getRow(), board.getCol() };
+}
+
+bool Game::getWinStatu()
+{
+	return board.checkwin();
+}
+
+std::vector<int> Game::getPlayer()
+{
+	return { board.getPlayerX(),board.getPlayerY() };
+}
+
+std::vector<int> Game::getStartEnd()
+{
+	return { board.getBegin(), board.getEnd() };
+}
+
+std::vector<Json_object> Game::getStatu()
+{
+	std::vector<Json_object> store;
+	std::vector<std::vector<Pipe>> PipeBoard = board.getPipeBoard();
+	std::vector<std::vector<bool>> answerBoard = board.getAnswer();
+	std::vector<std::vector<bool>> waterPass = board.getWaterPass();
+
+	for (int i = 0; i < board.getRow(); i++)
+	{
+		for (int j = 0; j < board.getCol(); j++)
+		{
+			int id = i * board.getCol() + j;
+			int type = PipeBoard[i][j].getType();
+			int dir = PipeBoard[i][j].getdir();
+			bool flow = waterPass[2 + i * 4][2 * j + 4];
+			bool answer = answerBoard[i][j];
+
+			store.push_back({ id,type,dir,flow,answer });
+		}
+	}
+
+
+	return store;
 }

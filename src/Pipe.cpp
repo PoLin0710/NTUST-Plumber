@@ -279,3 +279,12 @@ Pipe Pipe::FindKindPipe(char src[3][3])
 	}
 }
 
+int Pipe::getType()
+{
+	return type;
+}
+
+int Pipe::getdir()
+{
+	return dir;
+}

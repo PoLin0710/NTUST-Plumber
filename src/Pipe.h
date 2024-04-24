@@ -31,6 +31,9 @@ public:
 	Pipe SetPipe(char up, char right, char down, char left);
 	Pipe FindKindPipe(char[3][3]);
 
+	int getType();
+	int getdir();
+
 	char pipe[3][3];
 private:
 	int type;
