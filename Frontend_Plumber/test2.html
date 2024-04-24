@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Pipe Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        #game-container {
+            margin: 20px auto;
+            width: 600px;
+            border: 2px solid #999;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            width: calc(100% / 8);
+            height: calc(100% / 8);
+            border: 1px solid #ddd;
+            padding: 0;
+            margin: 0;
+            background-color: #f0f0f0;
+            position: relative;
+        }
+
+        .pipe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pipe.horizontal {
+            transform: rotate(90deg);
+        }
+
+        .pipe.vertical {
+            transform: rotate(180deg);
+        }
+
+        .pipe.start {
+            background-color: #0099FF;
+        }
+
+        .pipe.middle {
+            background-color: #CCCCCC;
+        }
+
+        .pipe.end {
+            background-color: #FF3333;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <table>
+            <!-- 动态生成 8x8 的水管网格 -->
+            <tbody id="grid">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 动态生成水管网格
+            var grid = $("#grid");
+            for (var i = 0; i < 8; i++) {
+                var row = $("<tr></tr>");
+                for (var j = 0; j < 8; j++) {
+                    var cell = $("<td></td>").attr("id", i + "-" + j);
+                    var pipe = $("<div></div>").addClass("pipe");
+                    cell.append(pipe);
+                    row.append(cell);
+                }
+                grid.append(row);
+            }
+        });
+    </script>
+</body>
+</html>

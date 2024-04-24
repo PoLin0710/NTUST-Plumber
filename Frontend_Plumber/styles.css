@@ -1,0 +1,217 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#game-container {
+    position: relative;
+    width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#Board {
+    position: relative;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+}
+
+#home {
+    margin-bottom: 32px;
+    font-family: Vollkorn, serif;
+    color: rgb(105, 120, 206);
+    font-style: normal;
+    font-weight: 700;
+    text-shadow: rgba(0, 0, 0, 0.2) 7px 1px 1px;
+    height: 100vh;
+    align-content: center;
+}
+.h1_text{
+    font-family:Impact;
+	font-size:22px;
+	padding:20px 35px;
+	text-decoration:none;
+	text-shadow:1px 9px 5px #ffee66;
+}
+.LoadButton {
+	box-shadow: 0px 10px 14px -7px #276873;
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	background-color:#599bb3;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+	padding:20px 35px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3d768a;
+}
+.LoadButton:hover {
+	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+	background-color:#408c99;
+}
+.LoadButton:active {
+	position:relative;
+	top:1px;
+}
+
+
+.CustomButton {
+	box-shadow: 0px 10px 14px -7px #e67a73;
+	background:linear-gradient(to bottom, #e4685d 5%, #eb675e 100%);
+	background-color:#e4685d;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+	padding:20px 35px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #b23e35;
+}
+.CustomButton:hover {
+	background:linear-gradient(to bottom, #eb675e 5%, #e4685d 100%);
+	background-color:#eb675e;
+}
+.CustomButton:active {
+	position:relative;
+	top:1px;
+}
+
+.RandomButton {
+	box-shadow: 0px 10px 14px -7px #fff6af;
+	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+	background-color:#ffec64;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#fcfcfc;
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+	padding:20px 35px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffee66;
+}
+.RandomButton:hover {
+	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+	background-color:#ffab23;
+}
+.RandomButton:active {
+	position:relative;
+	top:1px;
+}
+
+.homeButton {
+	box-shadow: 0px 10px 14px -7px #276873;
+	background: linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+    background-color: #599bb3;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 15px 25px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #3d768a;
+}
+.homeButton:hover {
+	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+	background-color:#408c99;
+}
+.homeButton:active {
+	position:relative;
+	top:1px;
+}
+
+/**********************************************/
+/* 起點 */
+.Faucet1 {
+    position: absolute;
+    width: 60px;
+}
+
+/* 終點 */
+.flag {
+    position: absolute;
+    width: 60px;
+}
+
+
+/* 3*3水管區域 */
+.pipe {
+    width: 60px;
+    height: 60px;
+    /* background-color: #CCCCCC; */
+    display: inline-block;
+    margin: 0 5px 20px;
+    position: relative;
+    cursor: pointer;
+}
+
+/* 橫 */
+.row1 {
+    width: 60px;
+    height: 20px;
+    background-color: #ffc87b;
+    position: absolute;
+    top: 20px;
+}
+
+/* 直 */
+.row2 {
+    width: 20px;
+    height: 60px;
+    background-color: #ffc87b;
+    position: absolute;
+    left: 20px;
+}
+
+/* 方塊 */
+.row3 {
+    width: 20px;
+    height: 20px;
+    background-color: #ffc87b;
+    position: absolute;
+    left: 20px;
+}
+
+/* 橫2 */
+.row4 {
+    width: 40px;
+    height: 20px;
+    background-color: #ffc87b;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+/* 旋转动画 */
+.pipe.rotated {
+    transform: rotate(90deg);
+}
+
+/* wasd選取紅框 */
+.red-border {
+    border: 2px solid #ff0d0d;
+}
+
+/* 水流 */
+.flow-bg {
+    background-color: #0099FF;
+}
+
+/* 正解 */
+.answer-bg {
+    background-color: #CCCCCC;
+}

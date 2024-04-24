@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Pipe Game</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        #game-container {
+            width: 600px;
+            /* 增加了宽度，以容纳更多的水管 */
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /*3*3水管區域*/
+        .pipe {
+            width: 60px;
+            height: 60px;
+            background-color: #CCCCCC;
+            /* 灰色 */
+            display: inline-block;
+            margin: 0 5px 20px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /*橫*/
+        .row1 {
+            width: 60px;
+            height: 20px;
+            background-color: #0099FF;
+            position: absolute;
+            top: 20px;
+        }
+
+        /* 直 */
+        .row2 {
+            width: 20px;
+            height: 60px;
+            background-color: #0099FF;
+            position: absolute;
+            left: 20px;
+        }
+
+
+        /* 方塊 */
+        .row3 {
+            width: 20px;
+            height: 20px;
+            background-color: #0099FF;
+            position: absolute;
+            left: 20px;
+        }
+
+        /* 橫2 */
+        .row4 {
+            width: 40px;
+            height: 20px;
+            background-color: #0099FF;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        /* 旋转动画 */
+        .pipe.rotated,
+        .pipe.rotated,
+        .pipe.rotated,
+        .pipe.rotated {
+            transform: rotate(90deg);
+            /* transform-origin: center center; */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game-container">
+        <div id="pipeBoard">
+
+        </div>
+
+    </div>
+
+    <script>
+        function createPipe(type) {
+            const pipe = document.createElement('div');
+            pipe.classList.add('pipe');
+
+
+            if (type === 'T') {
+                pipe.classList.add('T-shape');
+                pipe.innerHTML = `<div class="row1"></div> <div class="row3"></div>`;
+            } else if (type === 'L') {
+                pipe.classList.add('L-shape');
+                pipe.innerHTML = `<div class="row3"></div> <div class="row4"></div>`;
+            } else if (type === 'C') {
+                pipe.classList.add('C-shape');
+                pipe.innerHTML = `<div class="row1"></div> <div class="row2"></div>`;
+
+            } else {
+                pipe.classList.add('S-shape'); // 默认为直线水管
+                pipe.innerHTML = '<div class="row1"></div>';
+            }
+
+            pipe.addEventListener('click', function () {
+                pipe.classList.toggle('rotated');
+            });
+
+            return pipe;
+        }
+
+        window.onload = function () {
+            const pipeTypes = ['S', 'L', 'T', 'C'];
+            const numRows = 6;
+            const numCols = 4;
+            const pipeBoard = $('#pipeBoard');
+
+            for (let i = 0; i < numRows; i++) {
+                const row = $('<div></div>').addClass('row');
+                for (let j = 0; j < numCols; j++) {
+                    const randomType = pipeTypes[Math.floor(Math.random() * pipeTypes.length)];
+                    const pipe = createPipe(randomType);
+                    row.append(pipe);
+                }
+                pipeBoard.append(row);
+            }
+
+
+        };
+    </script>
+</body>
+
+</html>
