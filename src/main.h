@@ -2,8 +2,8 @@
 #define _MAIN_H_
 
 #include "Game.h"
-#include "cpprestsdk/include/cpprest/json.h"
-#include "cpprestsdk/include/cpprest/http_listener.h"
+#include "cpprest/json.h"
+#include "cpprest/http_listener.h"
 
 using namespace web;
 using namespace web::http;
