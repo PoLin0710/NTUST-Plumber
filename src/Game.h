@@ -1,6 +1,7 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
+#include <thread>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -22,7 +23,16 @@ enum ValidInput
 enum GameMode {
 	READFILE = 0,
 	CUSTOM = 1,
-	RANDOM = 2
+	RANDOM = 2,
+	NOTHING = 3
+};
+
+struct Json_object {
+	int id;
+	int type;
+	int dir;
+	bool flow;
+	bool answer;
 };
 
 class Game
@@ -30,14 +40,20 @@ class Game
 public:
 	Game();
 	~Game();
-	void start();
-	void setMode();
+	void start(int, int);
+	void setMode(char input);
 	void ReadMode();
-	void CustomMode();
+	void CustomMode(int, int);
 	void RandomMode();
 
-	void keyUpdate();
+	void keyUpdate(char input);
 	void update();
+
+	bool getWinStatu();
+	std::vector<int> getBoardSize();
+	std::vector<int> getPlayer();
+	std::vector<int> getStartEnd();
+	std::vector<Json_object> getStatu();
 
 private:
 	bool keyState[7];

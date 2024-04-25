@@ -283,6 +283,51 @@ bool Board::checkwin()
 	return waterPass[endY][endX];
 }
 
+int Board::getPlayerX()
+{
+	return playerX;
+}
+
+int Board::getPlayerY()
+{
+	return playerY;
+}
+
+int Board::getRow()
+{
+	return M;
+}
+
+int Board::getCol()
+{
+	return N;
+}
+
+int Board::getBegin()
+{
+	return begin;
+}
+
+int Board::getEnd()
+{
+	return end;
+}
+
+std::vector<std::vector<Pipe>> Board::getPipeBoard()
+{
+	return PipeBoard;
+}
+
+std::vector<std::vector<bool>> Board::getAnswer()
+{
+	return answer;
+}
+
+std::vector<std::vector<bool>> Board::getWaterPass()
+{
+	return waterPass;
+}
+
 void Board::setPipeMap()
 {
 	for (int i = 2; i < height; i += 4)
@@ -344,7 +389,12 @@ void Board::setBoard()
 	int StartToEnd[8][2] = { {0,4},{1,5},{2,6},{3,7},
 							 {4,0},{5,1},{6,2},{7,3} };
 
+
+
 	int random = rand() % 8;
+
+	this->begin = StartToEnd[random][0];
+	this->end = StartToEnd[random][1];
 
 	this->startX = position[StartToEnd[random][0]][1];
 	this->startY = position[StartToEnd[random][0]][0];

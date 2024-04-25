@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\Board.h" />
     <ClInclude Include="..\..\src\Game.h" />
+    <ClInclude Include="..\..\src\main.h" />
     <ClInclude Include="..\..\src\Pipe.h" />
   </ItemGroup>
   <ItemGroup>
