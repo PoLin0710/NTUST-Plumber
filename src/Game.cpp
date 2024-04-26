@@ -149,7 +149,7 @@ void Game::update()
 		hasInput = true;
 	}
 
-	//board.print();
+	board.update();
 	isWin = board.checkwin();
 
 }
@@ -188,7 +188,7 @@ std::vector<Json_object> Game::getStatu()
 			int id = i * board.getCol() + j;
 			int type = PipeBoard[i][j].getType();
 			int dir = PipeBoard[i][j].getdir();
-			bool flow = waterPass[2 + i * 4][2 * j + 4];
+			bool flow = waterPass[2 + i * 4][2 + j * 4];
 			bool answer = answerBoard[i][j];
 
 			store.push_back({ id,type,dir,flow,answer });

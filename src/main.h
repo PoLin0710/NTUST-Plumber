@@ -35,6 +35,7 @@ void handle_start(http_request request) {
 		//call game function
 		game.setMode(text[0]);
 		game.start(M, N);
+		game.update();
 
 		json::value response_data;
 		response_data[U("M")] = json::value::number(game.getBoardSize()[0]);

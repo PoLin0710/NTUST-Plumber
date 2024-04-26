@@ -20,6 +20,7 @@ public:
 	void playerMove(int, int);
 	void turnPipe(char);
 	void waterPassBFS();
+	void update();
 	bool checkwin();
 
 	int getPlayerX();
@@ -50,7 +51,5 @@ private:
 	bool isValid(int, int, std::vector<std::vector<bool>>&);
 	void findTheOneRoad(int, int, int, int);
 	void pipeToBoard();
-	void update();
-
 };
 #endif // _BOARD_H_
