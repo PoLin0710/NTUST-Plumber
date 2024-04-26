@@ -164,9 +164,9 @@ bool Game::getWinStatu()
 	return board.checkwin();
 }
 
-std::vector<int> Game::getPlayer()
+int Game::getPlayer()
 {
-	return { board.getPlayerX(),board.getPlayerY() };
+	return { board.getPlayerX() + board.getPlayerY() * getBoardSize()[0] };
 }
 
 std::vector<int> Game::getStartEnd()

@@ -49,9 +49,9 @@ public:
 	void keyUpdate(char input);
 	void update();
 
+	int getPlayer();
 	bool getWinStatu();
 	std::vector<int> getBoardSize();
-	std::vector<int> getPlayer();
 	std::vector<int> getStartEnd();
 	std::vector<Json_object> getStatu();
 

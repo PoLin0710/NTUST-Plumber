@@ -42,8 +42,8 @@ void handle_start(http_request request) {
 		response_data[U("PIPES")] = json::value::array(game.getStatu().size());
 		response_data[U("begin")] = json::value::number(game.getStartEnd()[0]);
 		response_data[U("end")] = json::value::number(game.getStartEnd()[1]);
+		response_data[U("current_id")] = json::value::number(game.getPlayer());
 		response_data[U("win_statu")] = json::value::boolean(game.getWinStatu());
-
 
 		for (int i = 0; i < game.getStatu().size(); i++)
 		{
@@ -56,6 +56,7 @@ void handle_start(http_request request) {
 
 			response_data[U("PIPES")][i] = result;
 		}
+
 		http_response response(status_codes::OK);
 		response.set_body(response_data);
 		response.headers().add(U("Access-Control-Allow-Origin"), U("*")); // Ensure this line is added
@@ -77,8 +78,26 @@ void handle_move(http_request request) {
 		game.update();
 
 		json::value response_data;
-		response_data[U("playerX")] = json::value::number(game.getPlayer()[0]);
-		response_data[U("playerY")] = json::value::number(game.getPlayer()[1]);
+		response_data[U("M")] = json::value::number(game.getBoardSize()[0]);
+		response_data[U("N")] = json::value::number(game.getBoardSize()[1]);
+		response_data[U("PIPES")] = json::value::array(game.getStatu().size());
+		response_data[U("begin")] = json::value::number(game.getStartEnd()[0]);
+		response_data[U("end")] = json::value::number(game.getStartEnd()[1]);
+		response_data[U("current_id")] = json::value::number(game.getPlayer());
+		response_data[U("win_statu")] = json::value::boolean(game.getWinStatu());
+
+		for (int i = 0; i < game.getStatu().size(); i++)
+		{
+			json::value result = json::value::object();
+			result[U("id")] = json::value::number(game.getStatu()[i].id);
+			result[U("type")] = json::value::number(game.getStatu()[i].type);
+			result[U("dir")] = json::value::number(game.getStatu()[i].dir);
+			result[U("flow")] = json::value::number(game.getStatu()[i].flow);
+			result[U("answer")] = json::value::number(game.getStatu()[i].answer);
+
+			response_data[U("PIPES")][i] = result;
+		}
+
 		http_response response(status_codes::OK);
 		response.set_body(response_data);
 		response.headers().add(U("Access-Control-Allow-Origin"), U("*")); // Ensure this line is added
@@ -105,6 +124,7 @@ void handle_turn(http_request request) {
 		response_data[U("PIPES")] = json::value::array(game.getStatu().size());
 		response_data[U("begin")] = json::value::number(game.getStartEnd()[0]);
 		response_data[U("end")] = json::value::number(game.getStartEnd()[1]);
+		response_data[U("current_id")] = json::value::number(game.getPlayer());
 		response_data[U("win_statu")] = json::value::boolean(game.getWinStatu());
 
 		for (int i = 0; i < game.getStatu().size(); i++)
