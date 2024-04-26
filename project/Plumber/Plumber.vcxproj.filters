@@ -52,7 +52,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\src\map\map1.txt">
+    <Text Include="..\..\exe\x64\Debug\map\map1.txt">
       <Filter>資源檔</Filter>
     </Text>
   </ItemGroup>

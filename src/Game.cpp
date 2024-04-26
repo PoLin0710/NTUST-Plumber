@@ -51,7 +51,13 @@ void Game::setMode(char input)
 
 void Game::ReadMode()
 {
-	std::ifstream inFile("../../src/map/map1.txt");
+	std::ifstream inFile("map\\map1.txt");
+
+	if (!inFile.is_open())
+	{
+		std::cout << "error";
+		return;
+	}
 
 	int m = 0, n = 0;
 	std::string temp = "", input;
