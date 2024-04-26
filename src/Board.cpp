@@ -42,6 +42,8 @@ Board::Board(int M, int N, std::string input)
 	this->endX = width - 1;
 	this->endY = height - 3;
 
+	this->begin = 7;
+	this->end = 3;
 
 	int pr = 0;
 
