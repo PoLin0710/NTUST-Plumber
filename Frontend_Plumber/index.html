@@ -5,25 +5,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Water Pipe Game</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    
+
     <div id="game-container">
         <div id="Board">
             <div id="home">
-            <h1 id="h1_text">Water Pipe Game</h1>
-            <a href="game.html?mapType=1" class="LoadButton">Load Map</a>
-            <a href="game.html?mapType=2" class="CustomButton">Custom Map</a>
-            <a href="game.html?mapType=3" class="RandomButton">Random Map</a>
-        </div>
+                <h1 id="h1_text">Water Pipe Game</h1>
+
+                <button id="LoadButton" class="LoadButton">Load Map</button>
+                <button id="CustomButton" class="CustomButton">Custom Map</button>
+                <button id="RandomButton" class="RandomButton">Random Map</button>
+                <!-- <a href="game.html?mapType=1" id="LoadButton" class="LoadButton">Load Map</a>
+                <a href="game.html?mapType=3" id="RandomButton" class="RandomButton">Random Map</a> -->
+            </div>
         </div>
     </div>
 
+    <!-- Custom Map 輸入小視窗 -->
+    <div class="modal-bg">
+        <div class="modal-content">
+            <h2>請設定地圖大小</h2>
+            <input type="text" id="lengthInput" placeholder="長度">
+            <input type="text" id="widthInput" placeholder="寬度">
+            <button id="confirmBtn">確定</button>
+            <button id="cancelBtn">取消</button>
+        </div>
+    </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="script.js"></script>
+    <!-- <script src="game.js"></script> -->
+
+    <script>
+        $(document).ready(function () {
+            // 點擊Custom Map打開輸入視窗
+            $('#CustomButton').click(function () {
+                $('.modal-bg').show();
+            });
+
+            // 點選確定按鈕傳給後端mode、m、n
+            $('#confirmBtn').click(function () {
+                var mode = 2;
+                var m = $('#lengthInput').val();
+                var n = $('#widthInput').val();
+
+                window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}`;
+            });
+
+            // 點選取消按鈕關閉視窗
+            $('#cancelBtn').click(function () {
+                $('.modal-bg').hide();
+            });
+
+            // 點擊Load Map
+            $('#LoadButton').click(function () {
+                var mode=1;
+                var m=0;
+                var n=0
+                window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}`;
+            });
+
+            // 點擊Random Map
+            $('#RandomButton').click(function () {
+                var mode=3;
+                var m=0;
+                var n=0
+                window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}`;
+            });
+
+
+
+        });
+
+
+
+
+    </script>
 </body>
 
 </html>

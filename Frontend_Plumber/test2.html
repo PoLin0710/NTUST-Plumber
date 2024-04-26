@@ -1,94 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
-    
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Water Pipe Game</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        #game-container {
-            margin: 20px auto;
-            width: 600px;
-            border: 2px solid #999;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        table {
-            width: 100%;
-            height: 100%;
-            border-collapse: collapse;
-        }
-
-        td {
-            width: calc(100% / 8);
-            height: calc(100% / 8);
-            border: 1px solid #ddd;
-            padding: 0;
-            margin: 0;
-            background-color: #f0f0f0;
-            position: relative;
-        }
-
-        .pipe {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .pipe.horizontal {
-            transform: rotate(90deg);
-        }
-
-        .pipe.vertical {
-            transform: rotate(180deg);
-        }
-
-        .pipe.start {
-            background-color: #0099FF;
-        }
-
-        .pipe.middle {
-            background-color: #CCCCCC;
-        }
-
-        .pipe.end {
-            background-color: #FF3333;
-        }
-    </style>
+    <title>Control Interface</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 </head>
 <body>
-    <div id="game-container">
-        <table>
-            <!-- 动态生成 8x8 的水管网格 -->
-            <tbody id="grid">
-            </tbody>
-        </table>
-    </div>
+    <!-- 原來的按鈕 -->
+    <button id="modeOne">設置模式 1</button>
+    <button id="modeTwo">設置模式 2</button>
+    <button id="modeThree">設置模式 3</button>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- 新增的按鈕用於控制方向 -->
+    <button id="moveW">向上 (W)</button>
+    <button id="moveA">向左 (A)</button>
+    <button id="moveS">向下 (S)</button>
+    <button id="moveD">向右 (D)</button>
+
+    <button id="turnLeft">左轉 (J)</button>
+    <button id="turnRight">右轉 (L)</button>
+
+    <div id="response"></div>
+
     <script>
         $(document).ready(function() {
-            // 动态生成水管网格
-            var grid = $("#grid");
-            for (var i = 0; i < 8; i++) {
-                var row = $("<tr></tr>");
-                for (var j = 0; j < 8; j++) {
-                    var cell = $("<td></td>").attr("id", i + "-" + j);
-                    var pipe = $("<div></div>").addClass("pipe");
-                    cell.append(pipe);
-                    row.append(cell);
-                }
-                grid.append(row);
+            // 原有的發送模式功能
+            $('#modeOne').click(function() { sendMode('1',0,0); });
+            $('#modeTwo').click(function() { sendMode('2',5,5); });
+            $('#modeThree').click(function() { sendMode('3',0,0); });
+
+            function sendMode(mode,M,N) {
+                $.ajax({
+                    url: 'http://localhost:34568/start',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ mode: mode , M: M , N: N}),
+                    success: function(response) {
+                        $('#response').text(JSON.stringify(response, null, 2));
+                    },
+                    error: function(xhr, status, error) {
+                        $('#response').html('Error: ' + xhr.responseText);
+                    }
+                });
+            }
+
+            // 新增的控制移動功能
+            $('#moveW').click(function() { sendMove('w'); });
+            $('#moveA').click(function() { sendMove('a'); });
+            $('#moveS').click(function() { sendMove('s'); });
+            $('#moveD').click(function() { sendMove('d'); });
+
+            function sendMove(move) {
+                $.ajax({
+                    url: 'http://localhost:34568/move',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ move: move }),
+                    success: function(response) {
+                        $('#response').html('Response: ' + JSON.stringify(response));
+                    },
+                    error: function(xhr, status, error) {
+                        $('#response').html('Error: ' + xhr.responseText);
+                    }
+                });
+            }
+
+            $('#turnLeft').click(function() {
+                sendTurn('J');
+            });
+            $('#turnRight').click(function() {
+                sendTurn('L');
+            });
+
+            function sendTurn(direction) {
+                $.ajax({
+                    url: 'http://localhost:34568/turn',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ turn: direction }),
+                    success: function(response) {
+                        $('#response').text(JSON.stringify(response, null, 2));
+                        //displayResponse(response);
+                    },
+                    error: function(xhr, status, error) {
+                        $('#response').html('Error: ' + xhr.responseText);
+                    }
+                });
+            }
+
+            function displayResponse(data) {
+                let html = `<h3>Response Data:</h3>
+                            <p>M: ${data.M}</p>
+                            <p>N: ${data.N}</p>
+                            <p>Pipes:</p>
+                            <ul>`;
+                data.PIPES.forEach(pipe => {
+                    html += `<li>ID: ${pipe.id}, Type: ${pipe.type}, Dir: ${pipe.dir}, Flow: ${pipe.flow}, Answer: ${pipe.answer}</li>`;
+                });
+                html += `</ul>`;
+                $('#response').html(html);
             }
         });
     </script>

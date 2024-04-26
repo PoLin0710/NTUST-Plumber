@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,8 @@
 
 <body>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="game.js"></script>
 
     <div id="game-container">
         <div id="Board">
@@ -20,7 +21,14 @@
         </div>
         <a href="index.html" class="homeButton">Back</a>
     </div>
+    <div id="response"></div>
 
+    <div class="container">
+        <div id="win-message" class="hidden">
+            <p>You Win!</p>
+            <a href="index.html" class="homeButton">Back</a>
+        </div>
+    </div>
 
 </body>
 
