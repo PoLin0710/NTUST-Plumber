@@ -166,7 +166,7 @@ bool Game::getWinStatu()
 
 int Game::getPlayer()
 {
-	return { board.getPlayerX() + board.getPlayerY() * getBoardSize()[0] };
+	return { board.getPlayerX() + board.getPlayerY() * board.getCol() };
 }
 
 std::vector<int> Game::getStartEnd()
