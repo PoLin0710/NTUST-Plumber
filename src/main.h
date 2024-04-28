@@ -11,19 +11,22 @@ using namespace web::http::experimental::listener;
 
 Game game;
 
-void handle_options(http_request request) {
-	http_response response(status_codes::OK);
-	response.headers().add(U("Allow"), U("GET, POST, OPTIONS"));
-	response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
-	response.headers().add(U("Access-Control-Allow-Methods"), U("GET, POST, OPTIONS"));
-	response.headers().add(U("Access-Control-Allow-Headers"), U("Content-Type"));
-	request.reply(response);
+void handle_options(http_request message)
+{
+	http_response rep;
+	rep.headers().add(U("Access-Control-Allow-Origin"), U("*"));
+	rep.headers().add(U("Access-Control-Request-Method"), U("GET,POST,OPTIONS"));
+	rep.headers().add(U("Access-Control-Allow-Credentials"), U("true"));
+	rep.headers().add(U("Access-Control-Allow-Headers"), U("Content-Type,Access-Token,x-requested-with,Authorization"));
+	rep.set_status_code(status_codes::OK);
+	message.reply(rep);
 }
 
 void handle_start(http_request request) {
 	request.extract_json().then([=](json::value request_json) {
 		//get josn info
 		utility::string_t text = request_json[U("mode")].as_string();
+		utility::string_t filename = request_json[U("filename")].as_string();
 		int M = request_json[U("M")].as_integer();
 		int N = request_json[U("N")].as_integer();
 
@@ -34,10 +37,11 @@ void handle_start(http_request request) {
 
 		//call game function
 		game.setMode(text[0]);
-		game.start(M, N);
+		game.start(M, N, filename);
 		game.update();
 
 		json::value response_data;
+		response_data[U("State")] = json::value::boolean(game.getSetSatae());
 		response_data[U("M")] = json::value::number(game.getBoardSize()[0]);
 		response_data[U("N")] = json::value::number(game.getBoardSize()[1]);
 		response_data[U("PIPES")] = json::value::array(game.getStatu().size());

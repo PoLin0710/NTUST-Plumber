@@ -40,9 +40,9 @@ class Game
 public:
 	Game();
 	~Game();
-	void start(int, int);
+	void start(int, int, std::wstring);
 	void setMode(char input);
-	void ReadMode();
+	void ReadMode(std::wstring);
 	void CustomMode(int, int);
 	void RandomMode();
 
@@ -51,6 +51,7 @@ public:
 
 	int getPlayer();
 	bool getWinStatu();
+	bool getSetSatae();
 	std::vector<int> getBoardSize();
 	std::vector<int> getStartEnd();
 	std::vector<Json_object> getStatu();
@@ -61,6 +62,7 @@ private:
 	Board board;
 	int mode;
 	bool isWin;
+	bool setState;
 };
 
 #endif // !_GAME_H_

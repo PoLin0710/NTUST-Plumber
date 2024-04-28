@@ -15,12 +15,12 @@ Game::~Game()
 {
 }
 
-void Game::start(int M, int N)
+void Game::start(int M, int N, std::wstring filename)
 {
-
+	setState = true;
 	if (mode == GameMode::READFILE)
 	{
-		ReadMode();
+		ReadMode(filename);
 	}
 	else if (mode == GameMode::CUSTOM)
 	{
@@ -49,12 +49,23 @@ void Game::setMode(char input)
 	}
 }
 
-void Game::ReadMode()
+void Game::ReadMode(std::wstring infilename)
 {
-	std::ifstream inFile("map\\map1.txt");
+	std::string fileHeader = "map\\";
+	std::string filename;
+
+	for (int i = 0; i < infilename.size(); i++)
+	{
+		filename.push_back(infilename[i]);
+	}
+
+	filename = fileHeader + filename;
+
+	std::ifstream inFile(filename);
 
 	if (!inFile.is_open())
 	{
+		setState = false;
 		std::cout << "error";
 		return;
 	}
@@ -75,6 +86,12 @@ void Game::ReadMode()
 
 void Game::CustomMode(int Row, int Col)
 {
+	if (Row < 3 || Row>8 || Col < 3 || Col>8)
+	{
+		setState = false;
+		return;
+	}
+
 	Board ans(Row, Col);
 	board = ans;
 }
@@ -168,6 +185,11 @@ std::vector<int> Game::getBoardSize()
 bool Game::getWinStatu()
 {
 	return board.checkwin();
+}
+
+bool Game::getSetSatae()
+{
+	return setState;
 }
 
 int Game::getPlayer()
