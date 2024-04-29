@@ -26,7 +26,7 @@ void handle_start(http_request request) {
 	request.extract_json().then([=](json::value request_json) {
 		//get josn info
 		utility::string_t text = request_json[U("mode")].as_string();
-		utility::string_t filename = request_json[U("filename")].as_string();
+		utility::string_t filename = request_json[U("fileName")].as_string();
 		int M = request_json[U("M")].as_integer();
 		int N = request_json[U("N")].as_integer();
 

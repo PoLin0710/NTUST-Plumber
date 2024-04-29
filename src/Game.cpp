@@ -86,7 +86,7 @@ void Game::ReadMode(std::wstring infilename)
 
 void Game::CustomMode(int Row, int Col)
 {
-	if (Row < 3 || Row>8 || Col < 3 || Col>8)
+	if (Row < 3 || Row > 15 || Col < 3 || Col > 15)
 	{
 		setState = false;
 		return;
