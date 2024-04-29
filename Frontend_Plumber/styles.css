@@ -6,7 +6,7 @@ body {
 
 #game-container {
     position: relative;
-    width: 600px;
+    width: 1200px;
     margin: 0 auto;
     text-align: center;
 }
@@ -30,89 +30,97 @@ body {
     height: 100vh;
     align-content: center;
 }
-.h1_text{
-    font-family:Impact;
-	font-size:22px;
-	padding:20px 35px;
-	text-decoration:none;
-	text-shadow:1px 9px 5px #ffee66;
+
+.h1_text {
+    font-family: Impact;
+    font-size: 22px;
+    padding: 20px 35px;
+    text-decoration: none;
+    text-shadow: 1px 9px 5px #ffee66;
 }
+
 .LoadButton {
-	box-shadow: 0px 10px 14px -7px #276873;
-	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
-	background-color:#599bb3;
-	border-radius:8px;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:20px;
-	font-weight:bold;
-	padding:20px 35px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #3d768a;
+    box-shadow: 0px 10px 14px -7px #276873;
+    background: linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+    background-color: #599bb3;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 20px 35px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #3d768a;
 }
+
 .LoadButton:hover {
-	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
-	background-color:#408c99;
+    background: linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+    background-color: #408c99;
 }
+
 .LoadButton:active {
-	position:relative;
-	top:1px;
+    position: relative;
+    top: 1px;
 }
 
 
 .CustomButton {
-	box-shadow: 0px 10px 14px -7px #e67a73;
-	background:linear-gradient(to bottom, #e4685d 5%, #eb675e 100%);
-	background-color:#e4685d;
-	border-radius:8px;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:20px;
-	font-weight:bold;
-	padding:20px 35px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #b23e35;
+    box-shadow: 0px 10px 14px -7px #e67a73;
+    background: linear-gradient(to bottom, #e4685d 5%, #eb675e 100%);
+    background-color: #e4685d;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 20px 35px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #b23e35;
 }
+
 .CustomButton:hover {
-	background:linear-gradient(to bottom, #eb675e 5%, #e4685d 100%);
-	background-color:#eb675e;
+    background: linear-gradient(to bottom, #eb675e 5%, #e4685d 100%);
+    background-color: #eb675e;
 }
+
 .CustomButton:active {
-	position:relative;
-	top:1px;
+    position: relative;
+    top: 1px;
 }
 
 .RandomButton {
-	box-shadow: 0px 10px 14px -7px #fff6af;
-	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
-	background-color:#ffec64;
-	border-radius:8px;
-	display:inline-block;
-	cursor:pointer;
-	color:#fcfcfc;
-	font-family:Arial;
-	font-size:20px;
-	font-weight:bold;
-	padding:20px 35px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #ffee66;
+    box-shadow: 0px 10px 14px -7px #fff6af;
+    background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+    background-color: #ffec64;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #fcfcfc;
+    font-family: Arial;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 20px 35px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffee66;
 }
+
 .RandomButton:hover {
-	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
-	background-color:#ffab23;
+    background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+    background-color: #ffab23;
 }
+
 .RandomButton:active {
-	position:relative;
-	top:1px;
+    position: relative;
+    top: 1px;
 }
 
 .homeButton {
-	box-shadow: 0px 10px 14px -7px #276873;
-	background: linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+    box-shadow: 0px 10px 14px -7px #276873;
+    background: linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
     background-color: #599bb3;
     border-radius: 8px;
     display: inline-block;
@@ -125,13 +133,15 @@ body {
     text-decoration: none;
     text-shadow: 0px 1px 0px #3d768a;
 }
+
 .homeButton:hover {
-	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
-	background-color:#408c99;
+    background: linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+    background-color: #408c99;
 }
+
 .homeButton:active {
-	position:relative;
-	top:1px;
+    position: relative;
+    top: 1px;
 }
 
 /* Custom Map小視窗 */
@@ -160,7 +170,7 @@ body {
 }
 
 /* 輸入框樣式 */
-input {
+select {
     width: 90%;
     padding: 10px;
     margin-bottom: 10px;
@@ -260,7 +270,7 @@ button {
 
 /* 遊戲結束動畫 */
 .container {
-    position: relative;
+    /* position: relative; */
     width: 100%;
     height: 100%;
 }
@@ -270,20 +280,23 @@ button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #66BB6A; /* 胜利样式的背景颜色 */
+    background-color: #66BB6A;
+    /* 胜利样式的背景颜色 */
     color: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     font-size: 24px;
     font-weight: bold;
-    animation: zoomIn 0.5s ease forwards; /* 使用动画效果 */
+    animation: zoomIn 0.5s ease forwards;
+    /* 使用动画效果 */
 }
 
 @keyframes zoomIn {
     from {
         transform: scale(0);
     }
+
     to {
         transform: scale(1);
     }

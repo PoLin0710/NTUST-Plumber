@@ -10,17 +10,22 @@
 </head>
 
 <body>
+    <audio id="backgroundMusic" src="icon\BGM1.mp3" loop preload="auto"></audio>
+
 
     <div id="game-container">
         <div id="Board">
             <div id="home">
                 <h1 id="h1_text">Water Pipe Game</h1>
-
-                <button id="LoadButton" class="LoadButton">Load Map</button>
+                <button id="music">music </button>
+                <button id="LoadButton" class="LoadButton">Load Map </button>
                 <button id="CustomButton" class="CustomButton">Custom Map</button>
                 <button id="RandomButton" class="RandomButton">Random Map</button>
+                <input type="file" id="loadfMap" class="LoadButton" name="loadfMap" accept="txt" style="
+                display: none;" />
                 <!-- <a href="game.html?mapType=1" id="LoadButton" class="LoadButton">Load Map</a>
-                <a href="game.html?mapType=3" id="RandomButton" class="RandomButton">Random Map</a> -->
+                <a href="game.html?mapType=3" id="RandomButton" class="RandomButton">Random Map</a>  style="
+                    display: none;"-->
             </div>
         </div>
     </div>
@@ -29,8 +34,17 @@
     <div class="modal-bg">
         <div class="modal-content">
             <h2>請設定地圖大小</h2>
-            <input type="text" id="lengthInput" placeholder="長度">
-            <input type="text" id="widthInput" placeholder="寬度">
+            <!-- <input type="number" id="lengthInput" placeholder="長度" max="15" min="3"
+                oninput="if(value>max)value=max; if(value<min)value=min">
+            <input type="number" id="widthInput" placeholder="寬度" max="15" min="3"
+                oninput="if(value>this.max)value=this.max "> -->
+            <select id="lengthInput" placeholder="請選擇長度">
+                <option value="" style="display: none;">請選擇長度</option>
+            </select>
+            <select id="widthInput" placeholder="請選擇寬度">
+                <option value="" style="display: none;">請選擇寬度</option>
+            </select>
+
             <button id="confirmBtn">確定</button>
             <button id="cancelBtn">取消</button>
         </div>
@@ -40,7 +54,35 @@
 
     <script>
         $(document).ready(function () {
-            // 點擊Custom Map打開輸入視窗
+            //播放BGM
+            $('#music').click(function () {
+                $('#backgroundMusic').trigger('play');
+                //$('#backgroundMusic').trigger('pause');
+
+            });
+            //瀏覽器先設為 音訊允許
+            $('#music').click();
+
+
+            //創建loadmap 小視窗
+            const lengthSelect = document.getElementById('lengthInput');
+            const widthSelect = document.getElementById('widthInput');
+
+            for (let i = 3; i <= 15; i++) {
+                const optionLength = document.createElement('option');
+                const optionWidth = document.createElement('option');
+
+                optionLength.value = i;
+                optionLength.text = i;
+                lengthSelect.appendChild(optionLength);
+
+                optionWidth.value = i;
+                optionWidth.text = i;
+                widthSelect.appendChild(optionWidth);
+            }
+
+
+            // 點擊Custom Map打開輸入視
             $('#CustomButton').click(function () {
                 $('.modal-bg').show();
             });
@@ -50,8 +92,9 @@
                 var mode = 2;
                 var m = $('#lengthInput').val();
                 var n = $('#widthInput').val();
+                var fileName = null;
 
-                window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}`;
+                window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}&fileName=${fileName}`;
             });
 
             // 點選取消按鈕關閉視窗
@@ -61,18 +104,56 @@
 
             // 點擊Load Map
             $('#LoadButton').click(function () {
-                var mode=1;
-                var m=0;
-                var n=0
-                window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}`;
+                $('#loadfMap').click();
+            });
+
+            //觸發檔案
+            $('#loadfMap').change(function () {
+                const file = event.target.files[0]; // 獲取選取的文件
+
+                if (file) {
+                    console.log(file);
+                    var mode = "1";
+                    var m = 0;
+                    var n = 0
+                    var fileName = file.name;
+
+                    var data = JSON.stringify({ mode: mode, M: m, N: n, fileName: fileName });//改!
+
+                    $.ajax({
+                        url: 'http://localhost:34568/start',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: data,
+                        success: function (response) {
+                            console.log(response);
+
+                            const State = response.State; //檔名正確
+
+                            if (State) {
+                                window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}&fileName=${fileName}`;
+                            } else {
+                                alert("請選擇正確地圖");
+                            }
+
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            let err = ajaxOptions + " " + thrownError;
+                            console.warn(err);
+                        }
+                    });
+                } else {
+                    console.log('No file selected');
+                }
             });
 
             // 點擊Random Map
             $('#RandomButton').click(function () {
-                var mode=3;
-                var m=0;
-                var n=0
-                window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}`;
+                var mode = 3;
+                var m = 0;
+                var n = 0;
+                var fileName = null;
+                window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}&fileName=${fileName}`;
             });
 
 

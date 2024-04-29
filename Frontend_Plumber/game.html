@@ -13,22 +13,31 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="game.js"></script>
 
+    <audio id="backgroundMusic" src="icon\BGM1.mp3" loop preload="auto"></audio>
+    <audio id="turnMusic" src="icon\turn.mp3"></audio>
+
+
     <div id="game-container">
         <div id="Board">
             <img id="Faucet1" class="Faucet1" src="icon\Faucet.png">
             <img id="flag" class="flag" src="icon\flag.png">
             <div id="pipeBoard"></div>
         </div>
-        <a href="index.html" class="homeButton">Back</a>
+
+        <div class="container">
+            <div id="win-message" class="hidden">
+                <p>You Win!</p>
+                <a href="index.html" class="homeButton">Back</a>
+            </div>
+        </div>
+
+        <a href="index.html" id="homeButton" class="homeButton">Back</a>
+        <button id="music">music </button>
+        <button id="music_close">close music</button>
     </div>
     <div id="response"></div>
 
-    <div class="container">
-        <div id="win-message" class="hidden">
-            <p>You Win!</p>
-            <a href="index.html" class="homeButton">Back</a>
-        </div>
-    </div>
+
 
 </body>
 
