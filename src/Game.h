@@ -1,3 +1,20 @@
+/***********************************************************************
+ * File: Game.h
+ * Author:
+ *		B11215040 HUANG,PO-LIN (oliver590617@gmail.com)
+ *		B11215014 ¤ýà±´¸ (sunnyching901105@gmail.com)
+ *		B11215008 ¬x§B¿o (n590762743@gmail.com)
+ *		B11215012 Henry Liu (rov20031214@gmail.com)
+ * Create Date: 2024-04-08
+ * Editor:
+ *		B11215040 HUANG,PO-LIN (oliver590617@gmail.com)
+ *		B11215014 ¤ýà±´¸ (sunnyching901105@gmail.com)
+ *		B11215008 ¬x§B¿o (n590762743@gmail.com)
+ *		B11215012 Henry Liu (rov20031214@gmail.com)
+ * Update Date: 2024-04-29
+ * Description: Header file for the Game class.
+***********************************************************************/
+
 #ifndef _GAME_H_
 #define _GAME_H_
 
@@ -9,6 +26,7 @@
 #include <ctime>
 #include "Board.h"
 
+// Decalre VaildInput
 enum ValidInput
 {
 	EW = 0,
@@ -20,6 +38,7 @@ enum ValidInput
 	INVALID,
 };
 
+// Declare GameMode
 enum GameMode {
 	READFILE = 0,
 	CUSTOM = 1,
@@ -27,6 +46,7 @@ enum GameMode {
 	NOTHING = 3
 };
 
+//Declare Pipe json object 
 struct Json_object {
 	int id;
 	int type;
@@ -35,20 +55,26 @@ struct Json_object {
 	bool answer;
 };
 
+// Declare Game class
 class Game
 {
 public:
+	// Constructor
 	Game();
+
+	// Deconstructor
 	~Game();
+
+	// Game function
 	void start(int, int, std::wstring);
 	void setMode(char input);
 	void ReadMode(std::wstring);
 	void CustomMode(int, int);
 	void RandomMode();
-
 	void keyUpdate(char input);
 	void update();
 
+	// Get game info
 	int getPlayer();
 	bool getWinStatu();
 	bool getSetSatae();
@@ -57,12 +83,13 @@ public:
 	std::vector<Json_object> getStatu();
 
 private:
-	bool keyState[7];
-	const double gTimeLog = 0.033;
-	Board board;
+	// Declare Game Attributes
 	int mode;
+	Board board;
 	bool isWin;
 	bool setState;
+	bool keyState[7];
+	const double gTimeLog = 0.033;
 };
 
 #endif // !_GAME_H_
