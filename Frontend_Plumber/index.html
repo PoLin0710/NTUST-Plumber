@@ -17,15 +17,12 @@
         <div id="Board">
             <div id="home">
                 <h1 id="h1_text">Water Pipe Game</h1>
-                <button id="music">music </button>
+                <button id="music" class="music-button"></button>
                 <button id="LoadButton" class="LoadButton">Load Map </button>
                 <button id="CustomButton" class="CustomButton">Custom Map</button>
                 <button id="RandomButton" class="RandomButton">Random Map</button>
                 <input type="file" id="loadfMap" class="LoadButton" name="loadfMap" accept="txt" style="
                 display: none;" />
-                <!-- <a href="game.html?mapType=1" id="LoadButton" class="LoadButton">Load Map</a>
-                <a href="game.html?mapType=3" id="RandomButton" class="RandomButton">Random Map</a>  style="
-                    display: none;"-->
             </div>
         </div>
     </div>
@@ -34,10 +31,6 @@
     <div class="modal-bg">
         <div class="modal-content">
             <h2>請設定地圖大小</h2>
-            <!-- <input type="number" id="lengthInput" placeholder="長度" max="15" min="3"
-                oninput="if(value>max)value=max; if(value<min)value=min">
-            <input type="number" id="widthInput" placeholder="寬度" max="15" min="3"
-                oninput="if(value>this.max)value=this.max "> -->
             <select id="lengthInput" placeholder="請選擇長度">
                 <option value="" style="display: none;">請選擇長度</option>
             </select>
@@ -54,12 +47,35 @@
 
     <script>
         $(document).ready(function () {
+            var musicPlaying = false; // 初始状态为关闭声音
+
             //播放BGM
             $('#music').click(function () {
-                $('#backgroundMusic').trigger('play');
-                //$('#backgroundMusic').trigger('pause');
-
+                // 切换音乐播放状态
+                if (musicPlaying)
+                    pauseMusic();
+                else
+                    playMusic();
             });
+
+            function playMusic() {
+                // 播放音乐
+                $('#backgroundMusic').trigger('play');
+                // 切换按钮样式
+                $('#music').removeClass('off');
+
+                musicPlaying = true;
+            }
+
+            function pauseMusic() {
+                // 暂停音乐
+                $('#backgroundMusic').trigger('pause');
+                // 切换按钮样式
+                $('#music').addClass('off');
+
+                musicPlaying = false;
+            }
+
             //瀏覽器先設為 音訊允許
             $('#music').click();
 
@@ -68,7 +84,7 @@
             const lengthSelect = document.getElementById('lengthInput');
             const widthSelect = document.getElementById('widthInput');
 
-            for (let i = 3; i <= 15; i++) {
+            for (let i = 3; i <= 8; i++) {
                 const optionLength = document.createElement('option');
                 const optionWidth = document.createElement('option');
 
@@ -156,13 +172,7 @@
                 window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}&fileName=${fileName}`;
             });
 
-
-
         });
-
-
-
-
     </script>
 </body>
 

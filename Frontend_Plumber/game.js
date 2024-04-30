@@ -1,3 +1,6 @@
+//當前選擇水管區
+var CURRENT_ID = 0;
+
 //遊戲結束動畫
 function showWinMessage() {
     $('#win-message').removeClass('hidden');
@@ -66,6 +69,7 @@ function setPoint(Point, pointType) {
     }
 }
 
+//轉向水管
 function pipe_rotate(dir, pipe) {
     switch (dir) {
         case 1:
@@ -80,6 +84,7 @@ function pipe_rotate(dir, pipe) {
         default:
             break;
     }
+    pipe.addClass('rotate-animation'); // 添加旋转动画类
 }
 
 function createPipe(type, dir, id, flow, answer) {
@@ -106,28 +111,46 @@ function createPipe(type, dir, id, flow, answer) {
 
     //是否正解
     if (answer) {
-        pipe.addClass("answer-bg");//加灰底
+        pipe.addClass("answer-bg");//加底
     }
 
     //轉向水管
     pipe_rotate(dir, pipe);
-
 
     return pipe;
 }
 
 
 $(document).ready(function () {
+    var musicPlaying = false; // 初始状态为关闭声音
     //播放BGM
     $('#music').click(function () {
+        // 切换音乐播放状态
+        if (musicPlaying)
+            pauseMusic();
+        else
+            playMusic();
+    });
+
+    function playMusic() {
+        // 播放音乐
         $('#backgroundMusic').trigger('play');
-        //$('#backgroundMusic').trigger('pause');
-    });
-    //關閉BGM
-    $('#music_close').click(function () {
+        // 切换按钮样式
+        $('#music').removeClass('off');
+
+        musicPlaying = true;
+    }
+
+    function pauseMusic() {
+        // 暂停音乐
         $('#backgroundMusic').trigger('pause');
-    });
-    //瀏覽器先設為 音訊允許
+        // 切换按钮样式
+        $('#music').addClass('off');
+
+        musicPlaying = false;
+    }
+
+    //*瀏覽器需先設為 音訊允許
     $('#music').click();
 
     //取得網址字串 http://127.0.0.1:5500/Frontend_Plumber/game.html?mode=1&M=0&N=0&fileName=map1.txt
@@ -140,65 +163,64 @@ $(document).ready(function () {
     var N = parseInt(urlParams.get('N'));
     var fileName = urlParams.get('fileName');
 
-    var data = JSON.stringify({ mode: mode, M: M, N: N, fileName: "map1.txt" });//改!
+    var data = JSON.stringify({ mode: mode, M: M, N: N, fileName: fileName }); !
 
-    //傳送地圖模式
-    $.ajax({
-        url: 'http://localhost:34568/start',
-        method: 'POST',
-        contentType: 'application/json',
-        data: data,
-        success: function (response) {
-            console.log(response);
+        //傳送地圖模式
+        $.ajax({
+            url: 'http://localhost:34568/start',
+            method: 'POST',
+            contentType: 'application/json',
+            data: data,
+            success: function (response) {
+                console.log(response);
 
-            // Board m*n
-            const numRows = response.M; // m
-            const numCols = response.N; // n
-            const startPoint = response.begin;//起點
-            const endPoint = response.end//終點
-            const win_statu = response.win_statu;//是否通關
-            const PIPES = response.PIPES;//水管盤
-            const current_id = response.current_id;//當前選取位置
+                // Board m*n
+                const numRows = response.M; // m
+                const numCols = response.N; // n
+                const startPoint = response.begin;//起點
+                const endPoint = response.end//終點
+                const win_statu = response.win_statu;//是否通關
+                const PIPES = response.PIPES;//水管盤
+                const current_id = response.current_id;//當前選取位置
+                CURRENT_ID = current_id;
 
 
-            if (!win_statu) {
-                //初始化地圖版面
-                const pipeBoard = $('#pipeBoard');
-                var index_id = 0;
+                if (!win_statu) {
+                    //初始化地圖版面
+                    const pipeBoard = $('#pipeBoard');
+                    var index_id = 0;
 
-                for (let i = 0; i < numRows; i++) {
-                    const row = $('<div></div>').addClass('row');
-                    for (let j = 0; j < numCols; j++) {
-                        const pipeID = PIPES[index_id].id; //水管id
-                        const pipeType = PIPES[index_id].type; //水管種類
-                        const pipeDir = PIPES[index_id].dir; //水管方向
-                        const pipeFlow = PIPES[index_id].flow; //水流
-                        const pipeAnswer = PIPES[index_id].answer; //正解
+                    for (let i = 0; i < numRows; i++) {
+                        const row = $('<div></div>').addClass('row');
+                        for (let j = 0; j < numCols; j++) {
+                            const pipeID = PIPES[index_id].id; //水管id
+                            const pipeType = PIPES[index_id].type; //水管種類
+                            const pipeDir = PIPES[index_id].dir; //水管方向
+                            const pipeFlow = PIPES[index_id].flow; //水流
+                            const pipeAnswer = PIPES[index_id].answer; //正解
 
-                        const pipe = createPipe(pipeType, pipeDir, pipeID, pipeFlow, pipeAnswer);// (type, dir, id, flow, answer);
-                        row.append(pipe);
+                            const pipe = createPipe(pipeType, pipeDir, pipeID, pipeFlow, pipeAnswer);
 
-                        index_id++;
+                            row.append(pipe);
+
+                            index_id++;
+                        }
+
+                        pipeBoard.append(row);
                     }
-                    pipeBoard.append(row);
+
+                    $(`#` + current_id).addClass("red-border");//加紅框
+
+                    //設起點終點
+                    setPoint(startPoint, "start");
+                    setPoint(endPoint, "end");
                 }
-                $(`#` + current_id).addClass("red-border");//加紅框
-
-                // Set start and end points
-                //設起點終點
-                setPoint(startPoint, "start");
-                setPoint(endPoint, "end");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                let err = ajaxOptions + " " + thrownError;
+                console.warn(err);
             }
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            let err = ajaxOptions + " " + thrownError;
-            console.warn(err);
-        }
-    });
-
-
-    ///////////////////////////////////////////////////////////////////
-
+        });
 
     //觸發鍵盤操作
     $(document).keydown(function (e) {
@@ -224,10 +246,20 @@ $(document).ready(function () {
             case 74: // J键
                 move = 'j';
                 ismove = false;
+
+                //水管旋轉動畫(向左)
+                var pipe = $('#' + CURRENT_ID);
+                pipe.addClass('rotate-left-animation');
+
                 break;
             case 76: // L键
                 move = 'l';
                 ismove = false;
+
+                //水管旋轉動畫(向右)
+                var pipe = $('#' + CURRENT_ID);
+                pipe.addClass('rotate-right-animation');
+
                 break;
 
             default: return; // 如果按下的键不是WASD，则不执行任何操作
@@ -251,6 +283,7 @@ $(document).ready(function () {
                     const win_statu = response.win_statu;//是否通關
                     const PIPES = response.PIPES;//水管盤
                     const current_id = response.current_id;//當前選取位置
+                    CURRENT_ID = current_id;
 
                     if (!win_statu) {
                         var index_id = 0;
@@ -266,11 +299,13 @@ $(document).ready(function () {
                                 const pipeDir = PIPES[index_id].dir; //水管方向
                                 const pipeFlow = PIPES[index_id].flow; //水流
                                 const pipeAnswer = PIPES[index_id].answer; //正解
-                                const pipe = createPipe(pipeType, pipeDir, pipeID, pipeFlow, pipeAnswer);// (type, dir, id, flow, answer);
+                                const pipe = createPipe(pipeType, pipeDir, pipeID, pipeFlow, pipeAnswer);
 
                                 row.append(pipe);
+
                                 index_id++;
                             }
+
                             pipeBoard.append(row);
                         }
 
@@ -303,6 +338,7 @@ $(document).ready(function () {
                     const win_statu = response.win_statu;//是否通關
                     const PIPES = response.PIPES;//水管盤
                     const current_id = response.current_id;//當前選取位置
+                    CURRENT_ID = current_id;
 
 
                     var index_id = 0;
@@ -319,6 +355,7 @@ $(document).ready(function () {
                             const pipeFlow = PIPES[index_id].flow; //水流
                             const pipeAnswer = PIPES[index_id].answer; //正解
                             const pipe = createPipe(pipeType, pipeDir, pipeID, pipeFlow, pipeAnswer);// (type, dir, id, flow, answer);
+
                             row.append(pipe);
 
                             index_id++;
@@ -341,14 +378,5 @@ $(document).ready(function () {
                 }
             });
         }
-
-
-
-
-
     });
-
-
-
-    //////////
 });
