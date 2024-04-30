@@ -152,7 +152,7 @@ void Game::ReadMode(std::wstring infilename)
 void Game::CustomMode(int Row, int Col)
 {
 	// Check if dimensions are within valid range
-	if (Row < 3 || Row > 15 || Col < 3 || Col > 15)
+	if (Row < 3 || Row > 8 || Col < 3 || Col > 8)
 	{
 		setState = false;
 		return;
