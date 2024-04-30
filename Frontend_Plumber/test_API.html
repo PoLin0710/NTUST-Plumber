@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Control Interface</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+</head>
+<body>
+    <!-- 原來的按鈕 -->
+    <button id="modeOne">設置模式 1</button>
+    <button id="modeTwo">設置模式 2</button>
+    <button id="modeThree">設置模式 3</button>
+
+    <!-- 新增的按鈕用於控制方向 -->
+    <button id="moveW">向上 (W)</button>
+    <button id="moveA">向左 (A)</button>
+    <button id="moveS">向下 (S)</button>
+    <button id="moveD">向右 (D)</button>
+
+    <button id="turnLeft">左轉 (J)</button>
+    <button id="turnRight">右轉 (L)</button>
+
+    <div id="response"></div>
+
+    <script>
+        $(document).ready(function() {
+            // 原有的發送模式功能
+            $('#modeOne').click(function() { sendMode('1',0,0); });
+            $('#modeTwo').click(function() { sendMode('2',5,5); });
+            $('#modeThree').click(function() { sendMode('3',0,0); });
+
+            function sendMode(mode,M,N) {
+                $.ajax({
+                    url: 'http://localhost:34568/start',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ mode: mode , M: M , N: N}),
+                    success: function(response) {
+                        $('#response').text(JSON.stringify(response, null, 2));
+                    },
+                    error: function(xhr, status, error) {
+                        $('#response').html('Error: ' + xhr.responseText);
+                    }
+                });
+            }
+
+            // 新增的控制移動功能
+            $('#moveW').click(function() { sendMove('w'); });
+            $('#moveA').click(function() { sendMove('a'); });
+            $('#moveS').click(function() { sendMove('s'); });
+            $('#moveD').click(function() { sendMove('d'); });
+
+            function sendMove(move) {
+                $.ajax({
+                    url: 'http://localhost:34568/move',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ move: move }),
+                    success: function(response) {
+                        $('#response').html('Response: ' + JSON.stringify(response));
+                    },
+                    error: function(xhr, status, error) {
+                        $('#response').html('Error: ' + xhr.responseText);
+                    }
+                });
+            }
+
+            $('#turnLeft').click(function() {
+                sendTurn('J');
+            });
+            $('#turnRight').click(function() {
+                sendTurn('L');
+            });
+
+            function sendTurn(direction) {
+                $.ajax({
+                    url: 'http://localhost:34568/turn',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ turn: direction }),
+                    success: function(response) {
+                        $('#response').text(JSON.stringify(response, null, 2));
+                        //displayResponse(response);
+                    },
+                    error: function(xhr, status, error) {
+                        $('#response').html('Error: ' + xhr.responseText);
+                    }
+                });
+            }
+
+            function displayResponse(data) {
+                let html = `<h3>Response Data:</h3>
+                            <p>M: ${data.M}</p>
+                            <p>N: ${data.N}</p>
+                            <p>Pipes:</p>
+                            <ul>`;
+                data.PIPES.forEach(pipe => {
+                    html += `<li>ID: ${pipe.id}, Type: ${pipe.type}, Dir: ${pipe.dir}, Flow: ${pipe.flow}, Answer: ${pipe.answer}</li>`;
+                });
+                html += `</ul>`;
+                $('#response').html(html);
+            }
+        });
+    </script>
+</body>
+</html>

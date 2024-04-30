@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Pipe Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="game.js"></script>
+
+    <audio id="backgroundMusic" src="icon\BGM1.mp3" loop preload="auto"></audio>
+    <audio id="turnMusic" src="icon\turn.mp3"></audio>
+
+
+    <div id="game-container">
+        <div class="container">
+            <div id="win-message" class="hidden">
+                <p>You Win!</p>
+                <a href="index.html" class="homeButton">Back</a>
+            </div>
+        </div>
+
+        <div id="Board">
+            <img id="Faucet1" class="Faucet1" src="icon\Faucet.png">
+            <img id="flag" class="flag" src="icon\flag.png">
+            <div id="pipeBoard"></div>
+
+        </div>
+        <button id="music" class="music-button"> </button>
+        <a href="index.html" id="homeButton" class="homeButton">Back</a>
+    </div>
+</body>
+
+</html>

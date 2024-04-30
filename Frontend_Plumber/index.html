@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Pipe Game</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <audio id="backgroundMusic" src="icon\BGM1.mp3" loop preload="auto"></audio>
+
+
+    <div id="game-container">
+        <div id="Board">
+            <div id="home">
+                <h1 id="h1_text">Water Pipe Game</h1>
+                <button id="music" class="music-button"></button>
+                <button id="LoadButton" class="LoadButton">Load Map </button>
+                <button id="CustomButton" class="CustomButton">Custom Map</button>
+                <button id="RandomButton" class="RandomButton">Random Map</button>
+                <input type="file" id="loadfMap" class="LoadButton" name="loadfMap" accept="txt" style="
+                display: none;" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Map input window -->
+    <div class="modal-bg">
+        <div class="modal-content">
+            <h2>請設定地圖大小</h2>
+            <select id="lengthInput" placeholder="請選擇長度">
+                <option value="" style="display: none;">請選擇長度</option>
+            </select>
+            <select id="widthInput" placeholder="請選擇寬度">
+                <option value="" style="display: none;">請選擇寬度</option>
+            </select>
+
+            <button id="confirmBtn">確定</button>
+            <button id="cancelBtn">取消</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // Initial state: sound is off
+            var musicPlaying = false;
+
+            // toggle background music
+            $('#music').click(function () {
+                // Toggle music play state
+                if (musicPlaying)
+                    pauseMusic();
+                else
+                    playMusic();
+            });
+
+            // play background music
+            function playMusic() {
+                // Play music
+                $('#backgroundMusic').trigger('play');
+                // Change button style
+                $('#music').removeClass('off');
+                musicPlaying = true;
+            }
+
+            // pause background music
+            function pauseMusic() {
+                // Pause music
+                $('#backgroundMusic').trigger('pause');
+                // Change button style
+                $('#music').addClass('off');
+                musicPlaying = false;
+            }
+
+            // Set browser to allow audio
+            $('#music').click();
+
+            // Create loadmap input window
+            const lengthSelect = document.getElementById('lengthInput');
+            const widthSelect = document.getElementById('widthInput');
+
+            for (let i = 3; i <= 8; i++) {
+                const optionLength = document.createElement('option');
+                const optionWidth = document.createElement('option');
+
+                optionLength.value = i;
+                optionLength.text = i;
+                lengthSelect.appendChild(optionLength);
+
+                optionWidth.value = i;
+                optionWidth.text = i;
+                widthSelect.appendChild(optionWidth);
+            }
+
+            // Click Custom Map opens input window
+            $('#CustomButton').click(function () {
+                $('.modal-bg').show();
+            });
+
+            // Click Confirm to sends (mode, m, n) to backend
+            $('#confirmBtn').click(function () {
+                var mode = 2;
+                var m = $('#lengthInput').val();
+                var n = $('#widthInput').val();
+                var fileName = null;
+
+                window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}&fileName=${fileName}`;
+            });
+
+            // Click Cancel to closes the window
+            $('#cancelBtn').click(function () {
+                $('.modal-bg').hide();
+            });
+
+            // Click Load Map
+            $('#LoadButton').click(function () {
+                $('#loadfMap').click();
+            });
+
+            // Trigger file selection
+            $('#loadfMap').change(function () {
+                const file = event.target.files[0];
+
+                if (file) {
+                    var mode = "1";
+                    var m = 0;
+                    var n = 0
+                    var fileName = file.name;
+                    var data = JSON.stringify({ mode: mode, M: m, N: n, fileName: fileName });
+
+                    $.ajax({
+                        url: 'http://localhost:34568/start',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: data,
+                        success: function (response) {
+                            const State = response.State;
+
+                            if (State) {
+                                window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}&fileName=${fileName}`;
+                            } else {
+                                alert("Please select a correct map.");
+                            }
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            let err = ajaxOptions + " " + thrownError;
+                            console.warn(err);
+                        }
+                    });
+                } else {
+                    console.log('No file selected');
+                }
+            });
+
+            // Click Random Map
+            $('#RandomButton').click(function () {
+                var mode = 3;
+                var m = 0;
+                var n = 0;
+                var fileName = null;
+
+                window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}&fileName=${fileName}`;
+            });
+        });
+
+    </script>
+</body>
+
+</html>
