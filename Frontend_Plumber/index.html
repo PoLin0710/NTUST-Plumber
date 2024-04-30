@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <!-- Custom Map 輸入小視窗 -->
+    <!-- Custom Map input window -->
     <div class="modal-bg">
         <div class="modal-content">
             <h2>請設定地圖大小</h2>
@@ -43,44 +43,42 @@
         </div>
     </div>
 
-    <!-- <script src="game.js"></script> -->
-
     <script>
         $(document).ready(function () {
-            var musicPlaying = false; // 初始状态为关闭声音
+            // Initial state: sound is off
+            var musicPlaying = false;
 
-            //播放BGM
+            // toggle background music
             $('#music').click(function () {
-                // 切换音乐播放状态
+                // Toggle music play state
                 if (musicPlaying)
                     pauseMusic();
                 else
                     playMusic();
             });
 
+            // play background music
             function playMusic() {
-                // 播放音乐
+                // Play music
                 $('#backgroundMusic').trigger('play');
-                // 切换按钮样式
+                // Change button style
                 $('#music').removeClass('off');
-
                 musicPlaying = true;
             }
 
+            // pause background music
             function pauseMusic() {
-                // 暂停音乐
+                // Pause music
                 $('#backgroundMusic').trigger('pause');
-                // 切换按钮样式
+                // Change button style
                 $('#music').addClass('off');
-
                 musicPlaying = false;
             }
 
-            //瀏覽器先設為 音訊允許
+            // Set browser to allow audio
             $('#music').click();
 
-
-            //創建loadmap 小視窗
+            // Create loadmap input window
             const lengthSelect = document.getElementById('lengthInput');
             const widthSelect = document.getElementById('widthInput');
 
@@ -97,13 +95,12 @@
                 widthSelect.appendChild(optionWidth);
             }
 
-
-            // 點擊Custom Map打開輸入視
+            // Click Custom Map opens input window
             $('#CustomButton').click(function () {
                 $('.modal-bg').show();
             });
 
-            // 點選確定按鈕傳給後端mode、m、n
+            // Click Confirm to sends (mode, m, n) to backend
             $('#confirmBtn').click(function () {
                 var mode = 2;
                 var m = $('#lengthInput').val();
@@ -113,28 +110,26 @@
                 window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}&fileName=${fileName}`;
             });
 
-            // 點選取消按鈕關閉視窗
+            // Click Cancel to closes the window
             $('#cancelBtn').click(function () {
                 $('.modal-bg').hide();
             });
 
-            // 點擊Load Map
+            // Click Load Map
             $('#LoadButton').click(function () {
                 $('#loadfMap').click();
             });
 
-            //觸發檔案
+            // Trigger file selection
             $('#loadfMap').change(function () {
-                const file = event.target.files[0]; // 獲取選取的文件
+                const file = event.target.files[0];
 
                 if (file) {
-                    console.log(file);
                     var mode = "1";
                     var m = 0;
                     var n = 0
                     var fileName = file.name;
-
-                    var data = JSON.stringify({ mode: mode, M: m, N: n, fileName: fileName });//改!
+                    var data = JSON.stringify({ mode: mode, M: m, N: n, fileName: fileName });
 
                     $.ajax({
                         url: 'http://localhost:34568/start',
@@ -142,16 +137,13 @@
                         contentType: 'application/json',
                         data: data,
                         success: function (response) {
-                            console.log(response);
-
-                            const State = response.State; //檔名正確
+                            const State = response.State;
 
                             if (State) {
                                 window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}&fileName=${fileName}`;
                             } else {
-                                alert("請選擇正確地圖");
+                                alert("Please select a correct map.");
                             }
-
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
                             let err = ajaxOptions + " " + thrownError;
@@ -163,16 +155,17 @@
                 }
             });
 
-            // 點擊Random Map
+            // Click Random Map
             $('#RandomButton').click(function () {
                 var mode = 3;
                 var m = 0;
                 var n = 0;
                 var fileName = null;
+
                 window.location.href = `game.html?mode=${mode}&M=${m}&N=${n}&fileName=${fileName}`;
             });
-
         });
+
     </script>
 </body>
 
