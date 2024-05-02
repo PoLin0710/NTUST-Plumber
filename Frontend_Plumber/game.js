@@ -153,7 +153,7 @@ $(document).ready(function () {
         // Play music
         $('#backgroundMusic').trigger('play');
         // Toggle button style
-        $('#music').removeClass('off');
+        $('#music').addClass('off');
 
         musicPlaying = false;
     }
